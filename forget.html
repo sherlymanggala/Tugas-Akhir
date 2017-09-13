@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <link rel="stylesheet" type="text/css" href="style.css" media="screen" />
+        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta/css/bootstrap.min.css" integrity="sha384-/Y6pD6FV/Vv2HJnA6t+vslU6fwYXjCFtcEpHbNJ0lyAFsXTsjBbfaDjzALeQsN6M" crossorigin="anonymous">
+        <title>Multi&#45;Inventory Prototype Web App</title>
+
+        <!-- update the version number as needed -->
+        <script defer src="/__/firebase/4.2.0/firebase-app.js"></script>
+        <!-- include only the Firebase features as you need -->
+        <script defer src="/__/firebase/4.2.0/firebase-auth.js"></script>
+        <script defer src="/__/firebase/4.2.0/firebase-database.js"></script>
+        <script defer src="/__/firebase/4.2.0/firebase-messaging.js"></script>
+        <script defer src="/__/firebase/4.2.0/firebase-storage.js"></script>
+        <!-- initialize the SDK after all desired features are loaded -->
+        <script defer src="/__/firebase/init.js"></script>
+        
+        <script type="text/javascript">
+            function sendPasswordReset() {
+                var email = document.getElementById('emailReset').value;
+                
+                firebase.auth().sendPasswordResetEmail(email).then(function() {
+                    // Password Reset email sent
+                    alert('Password Reset Email Sent!');
+                }).catch(function(error) {
+                    var errorCode = error.code;
+                    var errorMessage = error.message;
+                    
+                    if(errorCode == 'auth/invalid-email') {
+                        alert(errorMessage);
+                    }
+                    else if (errorCode == 'auth/user-not-found') {
+                        alert(errorMessage);
+                    }
+                    console.log(error);
+                });
+            }
+            
+            function initApp() {
+                document.getElementById('btnReset').addEventListener('click', sendPasswordReset, false);
+            }
+            
+            window.onload = function() {
+                initApp();
+            };
+        </script>
+    </head>
+    <body>
+        <div id="forget" class="container">
+            <h2>Forgot Password</h2>
+            <label>Insert your email</label>
+            <input id="emailReset" type="email" placeholder="Email">
+            <button id="btnReset" class="btn btn-default">Reset Password</button>
+        </div>
+    </body>
+</html>

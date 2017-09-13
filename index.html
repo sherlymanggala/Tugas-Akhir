@@ -1,0 +1,143 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <link rel="stylesheet" type="text/css" href="style.css" media="screen" />
+        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta/css/bootstrap.min.css" integrity="sha384-/Y6pD6FV/Vv2HJnA6t+vslU6fwYXjCFtcEpHbNJ0lyAFsXTsjBbfaDjzALeQsN6M" crossorigin="anonymous">
+        
+        <title>Multi&#45;Inventory Prototype Web App</title>
+        <script>
+            // Initialize Firebase
+            const config = {
+                apiKey: "AIzaSyA_NK_kBO7DABY-7InCTNK9pNNITHnrlCE",
+                authDomain: "multi-inventory.firebaseapp.com",
+                databaseURL: "https://multi-inventory.firebaseio.com",
+                projectId: "multi-inventory",
+                storageBucket: "multi-inventory.appspot.com",
+            };
+            firebase.initializeApp(config);
+        </script>
+        <!-- update the version number as needed -->
+        <script defer src="/__/firebase/4.2.0/firebase-app.js"></script>
+        <!-- include only the Firebase features as you need -->
+        <script defer src="/__/firebase/4.2.0/firebase-auth.js"></script>
+        <script defer src="/__/firebase/4.2.0/firebase-database.js"></script>
+        <script defer src="/__/firebase/4.2.0/firebase-messaging.js"></script>
+        <script defer src="/__/firebase/4.2.0/firebase-storage.js"></script>
+        <!-- initialize the SDK after all desired features are loaded -->
+        <script defer src="/__/firebase/init.js"></script>
+        
+        <script type="text/javascript">
+            /* --- LOGIN FUNCTION --- */
+            function toggleSignIn() {
+                if(firebase.auth().currentUser) {
+                    // [START signout]
+                    firebase.auth().signOut();
+                    // [END signout]
+                } else {
+                    var email = document.getElementById('txtEmail').value;
+                    var password = document.getElementById('txtPassword').value;
+                    if (email.length < 4) {
+                        alert('Please enter a valid email address.');
+                        return;
+                    }
+                    if (password.length < 4) {
+                        alert('Please enter a password.');
+                        return;
+                    }
+                    
+                    // Sign in with email and password.
+                    firebase.auth().signInWithEmailAndPassword(email, password).catch(function(error) {
+                       // Handle errors here.
+                        var errorCode = error.code;
+                        var errorMessage = error.message;
+                        
+                        if (errorCode === 'auth/wrong-password') {
+                            alert('Wrong password.');
+                        } else {
+                            alert(errorMessage);
+                        }
+                        console.log(error);
+                    });
+                }
+            }
+            
+            /* --- REGISTER FUNCTION --- */
+            function handleSignUp() {
+                var email = document.getElementById('regEmail').value;
+                var password = document.getElementById('regPass').value;
+                var passTemp = document.getElementById('regPassTemp').value;
+                if (passTemp != password) {
+                    alert('Password does not match.');
+                    return;
+                }
+                if (email.length < 4) {
+                    alert('Please enter a valid email.');
+                    return;
+                }
+                if (password.length < 4) {
+                    alert('Please enter a password.');
+                    return;
+                }
+                
+                //Sign in with email and password.
+                firebase.auth().createUserWithEmailAndPassword(email, password).then(function() {
+                    alert('Register succeed.');
+                }).catch(function(error) {
+                   //Handle errors here 
+                    var errorCode = error.code;
+                    var errorMessage = error.message;
+                    
+                    if (errorCode == 'auth/weak-password') {
+                        alert('The password is too weak.');
+                    } else {
+                        alert(errorMessage);
+                    }
+                    console.log(error);
+                });
+            }
+            
+            function initApp() {
+                firebase.auth().onAuthStateChanged(function(user) {
+                    /* if user has already logged in or signed in, automaticaly redirect to home */
+                    if (user) {
+                        window.location = 'home.html';
+                    } 
+                });
+                
+                /* add event after click submit button */
+                document.getElementById('btnLogin').addEventListener('click', toggleSignIn, false);
+                document.getElementById('btnSignUp').addEventListener('click', handleSignUp, false);
+            }
+            
+            /* to automatically load initApp() function */
+            window.onload = function() {
+                initApp();
+            };
+        </script>
+    </head>
+    <body>
+        <div class="header">
+            <h1>Multi-Inventory Web Application</h1>
+        </div>
+        <div id ="index" class="container container-fluid">
+            <div id="login" class="container">
+                <h2>Login</h2>
+                <input type="email" id="txtEmail" placeholder="Email">
+                <input type="password" id="txtPassword" placeholder="Password">
+                <input type="submit" role="button" id="btnLogin" class="btn btn-action" value="Log In">
+                <a id="forgetBtn" href="forget.html">Forgot password?</a>
+            </div>
+
+            <div id="register" class="container">
+                <h2>Register</h2>
+                <input type="text" id="name" placeholder="Full Name">
+                <input id="regEmail" type="email" placeholder="Insert your Email">
+                <input id="regPass" type="password" id="password" placeholder="Insert your password">
+                <input id="regPassTemp" type="password" placeholder="Please retype your password">
+                <input type="submit" role="button" id="btnSignUp" class="btn btn-action" value="Register">
+            </div>
+        </div>
+    </body>
+</html>

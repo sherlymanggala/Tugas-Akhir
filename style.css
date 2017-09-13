@@ -1,0 +1,177 @@
+@media screen and (min-width: 240px) {
+    
+/* ===== General Section ===== */
+    body {
+        background: #ECEFF1 !important; 
+        color: rgba(0,0,0,0.87) !important; 
+        font-family: Roboto, Helvetica, Arial, sans-serif !important; 
+        margin: 0 !important; 
+        padding: 0 !important;        
+    }
+    
+    .container {
+        background: white !important; 
+    }
+    
+    h1 {
+        font-size: 21px !important; 
+        font-weight: 300 !important; 
+        color: rgba(0,0,0,0.6) !important; 
+        margin: 0 0 16px !important;
+    }
+    
+    h2 {
+        color: #ffa100 !important; 
+        font-weight: bold !important; 
+        font-size: 18px !important; 
+        margin: 0 !important;         
+    }
+    
+    h6 {
+        color: #ff0000;
+        padding-top: 5px;
+        margin: 0;
+    }
+    
+    p {
+        line-height: 140%; 
+        margin: 16px 0 24px; 
+        font-size: 14px; 
+    }
+    
+    .btn {
+        background: #039be5;
+        border-color: #039be5;
+        color: #ffffff;
+        margin-top: 15px !important;
+        padding: 10px !important;
+        border-radius: 4px;
+        text-transform: uppercase !important;
+        text-decoration: none;
+        width: 100%;    
+        cursor: pointer;
+        font-size: 14px !important;
+    }
+    
+    .btn:hover {
+        background: #0084c4;
+    }
+    
+    input {
+        display:block;
+        border-radius: 3px !important;
+        border-width: 1px !important;
+        padding: 0 0 0 5px !important;
+        margin: 16px 0 0 !important;
+        width: 100%;
+        line-height: 30px !important;
+        font-size: 0.9em !important;
+        font-weight: 300;
+    }
+    
+    label {
+        float: left;
+        margin: 10px 0 0 0 !important;
+        font-size: 0.95em;
+        font-weight: 300;
+    }
+    
+/* ====== End of General Section ===== */
+
+/* ====== Page Section ===== */
+    
+/* --- Index Page Section --- */    
+    
+    #index {
+        display: flex;
+        padding: 30px 0 20px;
+    }
+    
+    .header {
+        text-align: center;
+        margin: 50px 0 30px 0 !important;
+    }
+    
+    #login,
+    #register {
+        max-width: 360px;
+        width: 360px;
+    }
+    
+    #forgetBtn {
+        color: #757575 !important;
+        font-size: 14px !important;
+        padding: 5px 0 0 0 !important;
+    }
+    
+    #forgetBtn:hover {
+        color: #000000 !important;
+        text-decoration: none !important;
+    }
+    
+    #btnLogin,
+    #btnSignUp {
+        background: #039be5 !important;
+        color: #ffffff !important;
+        padding: 5px 0 5px 0 !important;
+        border-radius: 4px !important;
+        text-transform: uppercase !important;
+        text-decoration: none !important;
+    }
+    
+    #btnLogin:hover,
+    #btnSignUp:hover {
+        background: #0084c4 !important;
+    }
+/* --- End of index page --- */
+    
+/* --- Login page --- */    
+    #login, #register, #forget {
+        text-align: center;
+    }
+    
+    #login h2 {
+        margin-bottom: 16px !important;
+    } 
+/* --- End of Login page --- */
+    
+/* --- Forget Page --- */
+    #forget {        
+        max-width: 360px !important;
+        border-radius: 3px !important; 
+        margin: 100px auto 16px !important; 
+        padding: 32px 24px 15px  !important; 
+    }
+    
+ /* --- Home Page --- */
+    #home h1 {
+        text-align: center;
+    }
+    
+    #home {
+        max-width: 80% !important;
+    }
+    
+    
+/* --- End of Home Page --- */
+}
+
+/* For Mobile View */
+@media (max-width: 600px) {
+    body, .container { 
+        margin-top: 0 !important; 
+        background: white !important; 
+        box-shadow: none !important;
+        padding: 5px !important;
+        width: 100% !important;
+    }
+    
+    body { 
+        border-top: 16px solid #ffa100 ;
+    }
+    
+    /* --- Index Page --- */
+    #index {
+        display: inline;
+    }
+}
