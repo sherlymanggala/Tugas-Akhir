@@ -28,13 +28,31 @@
             function handleLogout() {
                 firebase.auth().signOut().then(function() {
                     window.location = 'index.html';
-                    alert('Logged out.');
                 }).catch(function(error) {
                     console.log(error);
                 });
             }
             
+            /* Read data from database */
+            function readUser() {
+                var ref = firebase.database().ref('users');
+                ref.once("value")
+                .then(function(snapshot) {
+                    var name = snapshot.child("name").val();
+                })
+            }
+            
             function initApp() {
+                firebase.auth().onAuthStateChanged(function(user) {
+                    if (user) {
+                        return;
+                    }
+                    else {
+                        window.location = 'index.html';
+                        alert('Error, you must log in first.');
+                    }
+                });
+                
                 document.getElementById('btnLogout').addEventListener('click', handleLogout, false);
             }
             
@@ -78,7 +96,7 @@
         </nav>
         
         <div id="home" class="container">
-            <h1>ini tampilan home</h1>
+            <h1>Welcome back, <span id="username"></span></h1>
             <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Ut viverra sem euismod, mattis ipsum id, cursus odio. Nulla ligula nibh, sollicitudin nec elit non, consequat lacinia turpis. Donec fringilla sollicitudin enim, quis fringilla neque molestie vitae. Suspendisse potenti. Duis vitae commodo lacus, nec imperdiet augue. Suspendisse vel eleifend velit. Quisque semper porttitor vestibulum. Phasellus fermentum, enim id convallis tempor, sapien enim venenatis diam, eget viverra arcu lectus eu erat. Cras sed aliquam orci. Suspendisse scelerisque purus eu placerat ullamcorper. Vestibulum tristique urna sollicitudin ante volutpat gravida. Mauris sollicitudin urna rhoncus iaculis bibendum. Sed ornare elit sed nunc cursus commodo.</p>
         </div>
     </body>
