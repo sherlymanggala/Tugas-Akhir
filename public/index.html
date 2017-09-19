@@ -7,6 +7,8 @@
         <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta/css/bootstrap.min.css" integrity="sha384-/Y6pD6FV/Vv2HJnA6t+vslU6fwYXjCFtcEpHbNJ0lyAFsXTsjBbfaDjzALeQsN6M" crossorigin="anonymous">
         
         <title>Multi&#45;Inventory Prototype Web App</title>
+        <!-- update the version number as needed -->
+        <script src="https://www.gstatic.com/firebasejs/4.3.0/firebase.js"></script>
         <script>
             // Initialize Firebase
             const config = {
@@ -17,17 +19,8 @@
                 storageBucket: "multi-inventory.appspot.com",
             };
             firebase.initializeApp(config);
+            var database = firebase.database();
         </script>
-        <!-- update the version number as needed -->
-        <script defer src="/__/firebase/4.2.0/firebase-app.js"></script>
-        <!-- include only the Firebase features as you need -->
-        <script defer src="/__/firebase/4.2.0/firebase-auth.js"></script>
-        <script defer src="/__/firebase/4.2.0/firebase-database.js"></script>
-        <script defer src="/__/firebase/4.2.0/firebase-messaging.js"></script>
-        <script defer src="/__/firebase/4.2.0/firebase-storage.js"></script>
-        <!-- initialize the SDK after all desired features are loaded -->
-        <script defer src="/__/firebase/init.js"></script>
-        
         <script type="text/javascript">         
             /* --- LOGIN FUNCTION --- */
             function toggleSignIn() {
@@ -98,13 +91,16 @@
                 });
             }
             
-            function writeUserData(userId, name, email, role) {
-                var database = firebase.database().ref('users/' + userId);
-                database.set({
-                    'name': name,
-                    'email': email,
-                    'role': role
-                });
+            function writeUserData(uid, name, email, role) {
+//                console.log("sending a push command");
+                var userRef = database.ref('users/'+uid);
+                var regist = {
+                    name: name,
+                    email: email,
+                    role: role
+                };
+                console.log(regist);
+                userRef.set(regist);
             }
             
             function initApp() {
