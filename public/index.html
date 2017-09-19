@@ -53,6 +53,14 @@
                         }
                         console.log(error);
                     });
+                    
+                    firebase.auth().onAuthStateChanged(function(user) {
+                    /* if user has already logged in or signed in, automaticaly redirect to home */
+                    if (user) {
+                        //writeUserData(user.uid, document.getElementById('regName').value, user.email, document.getElementById('role').value);
+                        window.location = 'home.html';
+                    } 
+                });
                 }
             }
             
@@ -89,6 +97,14 @@
                     }
                     console.log(error);
                 });
+                
+                firebase.auth().onAuthStateChanged(function(user) {
+                    /* if user has already logged in or signed in, automaticaly redirect to home */
+                    if (user) {
+                        writeUserData(user.uid, document.getElementById('regName').value, user.email, document.getElementById('role').value);
+                        window.location = 'home.html';
+                    } 
+                });
             }
             
             function writeUserData(uid, name, email, role) {
@@ -104,13 +120,13 @@
             }
             
             function initApp() {
-                firebase.auth().onAuthStateChanged(function(user) {
-                    /* if user has already logged in or signed in, automaticaly redirect to home */
+                /*firebase.auth().onAuthStateChanged(function(user) {
+                     //if user has already logged in or signed in, automaticaly redirect to home 
                     if (user) {
                         writeUserData(user.uid, document.getElementById('regName').value, user.email, document.getElementById('role').value);
                         window.location = 'home.html';
                     } 
-                });
+                });*/
                 
                 /* add event after click submit button */
                 document.getElementById('btnLogin').addEventListener('click', toggleSignIn, false);

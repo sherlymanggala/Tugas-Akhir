@@ -8,20 +8,25 @@
         <!-- Bootstrap CSS -->
         <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
         <title>Multi&#45;Inventory Prototype Web App</title>
-
-        <!-- update the version number as needed -->
-        <script defer src="/__/firebase/4.2.0/firebase-app.js"></script>
-        <!-- include only the Firebase features as you need -->
-        <script defer src="/__/firebase/4.2.0/firebase-auth.js"></script>
-        <script defer src="/__/firebase/4.2.0/firebase-database.js"></script>
-        <script defer src="/__/firebase/4.2.0/firebase-messaging.js"></script>
-        <script defer src="/__/firebase/4.2.0/firebase-storage.js"></script>
-        <!-- initialize the SDK after all desired features are loaded -->
-        <script defer src="/__/firebase/init.js"></script>
         
         <!-- Bootstrap -->
         <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
         <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+
+        <!-- update the version number as needed -->
+        <script src="https://www.gstatic.com/firebasejs/4.3.0/firebase.js"></script>
+        <script>
+            // Initialize Firebase
+            const config = {
+                apiKey: "AIzaSyA_NK_kBO7DABY-7InCTNK9pNNITHnrlCE",
+                authDomain: "multi-inventory.firebaseapp.com",
+                databaseURL: "https://multi-inventory.firebaseio.com",
+                projectId: "multi-inventory",
+                storageBucket: "multi-inventory.appspot.com",
+            };
+            firebase.initializeApp(config);
+            var database = firebase.database();
+        </script>
         
         <!-- Function code here -->
         <script type="text/javascript">
@@ -34,17 +39,19 @@
             }
             
             /* Read data from database */
-            function readUser() {
-                var ref = firebase.database().ref('users');
-                ref.once("value")
-                .then(function(snapshot) {
-                    var name = snapshot.child("name").val();
-                })
+            function readUser(userId) {
+                var userRef = firebase.database().ref('users/' + userId);
+                var nameRef = userRef.child('name');
+                nameRef.once("value").then(function(snapshot) {
+                    console.log(snapshot.val());
+                    document.getElementById('username').innerHTML = snapshot.val();
+                });
             }
             
             function initApp() {
                 firebase.auth().onAuthStateChanged(function(user) {
                     if (user) {
+                        readUser(user.uid);
                         return;
                     }
                     else {
