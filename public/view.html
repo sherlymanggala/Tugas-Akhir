@@ -81,9 +81,9 @@
                 </div>
                 <div class="collapse navbar-collapse" id="toggleNavbar">
                     <ul class="nav navbar-nav">
-                        <li class="active"><a href="#">Home</a></li>
-                        <li><a href="#">Input Data</a></li>
-                        <li><a href="#">View Data</a></li>
+                        <li><a href="home.html">Home</a></li>
+                        <li><a href="input.html">Input Data</a></li>
+                        <li class="active"><a href="view.html">View Data</a></li>
                         <li><a href="#">Delete Data</a></li>
                         
                         <!-- For dropdown menu -->
@@ -96,15 +96,21 @@
                         </li>
                     </ul>
                     <ul class="nav navbar-nav navbar-right">
-                        <li class="" id="btnLogout"><a href="#">Log out</a></li>
+                        <li class="" id="btnLogout"><a href="index.html">Log out</a></li>
                     </ul>
                 </div>
             </div>
         </nav>
         
-        <div id="home" class="container">
-            <h1>Welcome back, <span id="username"></span></h1>
-            <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Ut viverra sem euismod, mattis ipsum id, cursus odio. Nulla ligula nibh, sollicitudin nec elit non, consequat lacinia turpis. Donec fringilla sollicitudin enim, quis fringilla neque molestie vitae. Suspendisse potenti. Duis vitae commodo lacus, nec imperdiet augue. Suspendisse vel eleifend velit. Quisque semper porttitor vestibulum. Phasellus fermentum, enim id convallis tempor, sapien enim venenatis diam, eget viverra arcu lectus eu erat. Cras sed aliquam orci. Suspendisse scelerisque purus eu placerat ullamcorper. Vestibulum tristique urna sollicitudin ante volutpat gravida. Mauris sollicitudin urna rhoncus iaculis bibendum. Sed ornare elit sed nunc cursus commodo.</p>
+        <div id="view" class="container">
+            <h1>View Data</h1>
+            <div class="container-fluid">
+                <select>
+                    <option value="dataNumber">Data No.</option>
+                    <option value="dataName">Data Name</option>
+                </select>
+                <input type="text" id="searchDataNo" placeholder="Search for..." class="form-control">
+            </div>
         </div>
     </body>
 </html>

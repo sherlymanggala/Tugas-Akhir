@@ -81,9 +81,9 @@
                 </div>
                 <div class="collapse navbar-collapse" id="toggleNavbar">
                     <ul class="nav navbar-nav">
-                        <li class="active"><a href="#">Home</a></li>
-                        <li><a href="#">Input Data</a></li>
-                        <li><a href="#">View Data</a></li>
+                        <li><a href="home.html">Home</a></li>
+                        <li class="active"><a href="input.html">Input Data</a></li>
+                        <li><a href="view.html">View Data</a></li>
                         <li><a href="#">Delete Data</a></li>
                         
                         <!-- For dropdown menu -->
@@ -96,15 +96,21 @@
                         </li>
                     </ul>
                     <ul class="nav navbar-nav navbar-right">
-                        <li class="" id="btnLogout"><a href="#">Log out</a></li>
+                        <li class="" id="btnLogout"><a href="index.html">Log out</a></li>
                     </ul>
                 </div>
             </div>
         </nav>
         
-        <div id="home" class="container">
-            <h1>Welcome back, <span id="username"></span></h1>
-            <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Ut viverra sem euismod, mattis ipsum id, cursus odio. Nulla ligula nibh, sollicitudin nec elit non, consequat lacinia turpis. Donec fringilla sollicitudin enim, quis fringilla neque molestie vitae. Suspendisse potenti. Duis vitae commodo lacus, nec imperdiet augue. Suspendisse vel eleifend velit. Quisque semper porttitor vestibulum. Phasellus fermentum, enim id convallis tempor, sapien enim venenatis diam, eget viverra arcu lectus eu erat. Cras sed aliquam orci. Suspendisse scelerisque purus eu placerat ullamcorper. Vestibulum tristique urna sollicitudin ante volutpat gravida. Mauris sollicitudin urna rhoncus iaculis bibendum. Sed ornare elit sed nunc cursus commodo.</p>
+        <div id="input" class="container">
+            <h1>Input Data</h1>
+            <label>Nama Barang</label>
+            <input type="text" id="namaBarang">
+            <label>Kode Barang</label>
+            <input type="text" id="kodeBarang">
+            <label>Jumlah</label>
+            <input type="number" id="jumlahBarang">
+            <button class="btn" role="submit" id="inputBtn">Submit</button>
         </div>
     </body>
 </html>
