@@ -30,37 +30,36 @@
         
         <!-- Function code here -->
         <script type="text/javascript">
-            function handleLogout() {
-                firebase.auth().signOut().then(function() {
-                    window.location = 'index.html';
-                }).catch(function(error) {
-                    console.log(error);
+            function handleInputData() {
+                var dataBrand = document.getElementById('brand').value;
+                var dataName = document.getElementById('dataName').value;
+                var dataCode = document.getElementById('dataCode').value;
+                var dataAmount = document.getElementById('dataAmount').value;
+                
+                firebase.auth().onAuthStateChanged(function(user) {
+                    var userRef = database.ref('users/' + user.uid).child('name');
+                    var userName = userRef.once("value").then(function(snapshot) {
+                        inputData(dataBrand, dataName, dataCode, dataAmount, snapshot.val());
+                    });                    
+                    alert('Input Success.');
+                    return;
                 });
             }
             
-            /* Read data from database */
-            function readUser(userId) {
-                var userRef = firebase.database().ref('users/' + userId);
-                var nameRef = userRef.child('name');
-                nameRef.once("value").then(function(snapshot) {
-                    console.log(snapshot.val());
-                    document.getElementById('username').innerHTML = snapshot.val();
-                });
+            function inputData(dataBrand, dataName, dataCode, amount, userName) {
+                var dataRef = database.ref('data/' + dataBrand);
+                var childDataRef = dataRef.child(dataCode);
+                var input = {
+                    data_name: dataName,
+                    amount: amount,
+                    input_by: userName
+                };
+                console.log(input);
+                childDataRef.set(input);
             }
             
             function initApp() {
-                firebase.auth().onAuthStateChanged(function(user) {
-                    if (user) {
-                        readUser(user.uid);
-                        return;
-                    }
-                    /*else {
-                        window.location = 'index.html';
-                        alert('Error, you must log in first.');
-                    }*/
-                });
-                
-                document.getElementById('btnLogout').addEventListener('click', handleLogout, false);
+                document.getElementById('inputBtn').addEventListener('click', handleInputData, false);
             }
             
             window.onload = function() {
@@ -96,7 +95,7 @@
                         </li>
                     </ul>
                     <ul class="nav navbar-nav navbar-right">
-                        <li class="" id="btnLogout"><a href="index.html">Log out</a></li>
+                        <li id="btnLogout"><a href="index.html">Log out</a></li>
                     </ul>
                 </div>
             </div>
@@ -104,13 +103,21 @@
         
         <div id="input" class="container">
             <h1>Input Data</h1>
-            <label>Nama Barang</label>
-            <input type="text" id="namaBarang">
-            <label>Kode Barang</label>
-            <input type="text" id="kodeBarang">
-            <label>Jumlah</label>
-            <input type="number" id="jumlahBarang">
-            <button class="btn" role="submit" id="inputBtn">Submit</button>
+            <label>Brand</label><br><br>
+            <select id="brand">
+                <option value="Honda">Honda</option>
+                <option value="Suzuki">Suzuki</option>
+                <option value="Yamaha">Yamaha</option>
+                <option value="Kawasaki">Kawasaki</option>
+                <option value="Other">Other</option>
+            </select><br>
+            <label>Name</label>
+            <input type="text" id="dataName" autocomplete="off">
+            <label>Code</label>
+            <input type="text" id="dataCode" autocomplete="off">
+            <label>Quantity</label>
+            <input type="number" id="dataAmount" autocomplete="off">
+            <input type="submit" role="button" id="inputBtn" class="btn btn-action" value="Submit">
         </div>
     </body>
 </html>

@@ -70,6 +70,20 @@
         font-weight: 300;
     }
     
+    input [type="submit"] {
+        background: #039be5 !important;
+        color: #ffffff !important;
+        padding: 5px 0 5px 0 !important;
+        border-radius: 4px !important;
+        text-transform: uppercase !important;
+        text-decoration: none !important;
+    }
+    
+    input [type="submit"]:hover {
+        background: #0084c4 !important;
+        color: #fff !important;
+    }
+    
     label {
         float: left;
         margin: 10px 0 0 0 !important;
@@ -109,21 +123,6 @@
         text-decoration: none !important;
     }
     
-    #btnLogin,
-    #btnSignUp {
-        background: #039be5 !important;
-        color: #ffffff !important;
-        padding: 5px 0 5px 0 !important;
-        border-radius: 4px !important;
-        text-transform: uppercase !important;
-        text-decoration: none !important;
-    }
-    
-    #btnLogin:hover,
-    #btnSignUp:hover {
-        background: #0084c4 !important;
-    }
-    
     #login, #register, #forget {
         text-align: center;
     }
@@ -154,8 +153,17 @@
 /* --- End of Home Page --- */
 
 /* --- Input Data Page --- */
-    #inputBtn:hover {
-        color: #fff;
+    /*#input input[type="submit"] {
+        background: #039be5 !important;
+        color: #ffffff !important;
+        padding: 5px 0 5px 0 !important;
+        border-radius: 4px !important;
+        text-transform: uppercase !important;
+        text-decoration: none !important;
+    }*/
+    
+    #brand {
+        float: left;
     }
 /* --- End of Input Data Page --- */
     

@@ -107,6 +107,7 @@
                 });
             }
             
+            // to push data to database
             function writeUserData(uid, name, email, role) {
 //                console.log("sending a push command");
                 var userRef = database.ref('users/'+uid);
@@ -119,18 +120,8 @@
                 userRef.set(regist);
             }
             
-            function initApp() {
-                /*firebase.auth().onAuthStateChanged(function(user) {
-                     //if user has already logged in or signed in, automaticaly redirect to home 
-                    if (user) {
-                        writeUserData(user.uid, document.getElementById('regName').value, user.email, document.getElementById('role').value);
-                        window.location = 'home.html';
-                    } 
-                });*/
-                
-                /* add event after click submit button */
-                document.getElementById('btnLogin').addEventListener('click', toggleSignIn, false);
-                document.getElementById('btnSignUp').addEventListener('click', handleSignUp, false);
+            function initApp() {                
+                /* add event after click submit button */                document.getElementById('btnLogin').addEventListener('click', toggleSignIn, false);                document.getElementById('btnSignUp').addEventListener('click', handleSignUp, false);
             }
             
             /* to automatically load initApp() function */

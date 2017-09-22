@@ -30,37 +30,12 @@
         
         <!-- Function code here -->
         <script type="text/javascript">
-            function handleLogout() {
-                firebase.auth().signOut().then(function() {
-                    window.location = 'index.html';
-                }).catch(function(error) {
-                    console.log(error);
-                });
-            }
-            
-            /* Read data from database */
-            function readUser(userId) {
-                var userRef = firebase.database().ref('users/' + userId);
-                var nameRef = userRef.child('name');
-                nameRef.once("value").then(function(snapshot) {
-                    console.log(snapshot.val());
-                    document.getElementById('username').innerHTML = snapshot.val();
-                });
+            function handleOutputData() {
+                
             }
             
             function initApp() {
-                firebase.auth().onAuthStateChanged(function(user) {
-                    if (user) {
-                        readUser(user.uid);
-                        return;
-                    }
-                    /*else {
-                        window.location = 'index.html';
-                        alert('Error, you must log in first.');
-                    }*/
-                });
                 
-                document.getElementById('btnLogout').addEventListener('click', handleLogout, false);
             }
             
             window.onload = function() {
@@ -110,6 +85,8 @@
                     <option value="dataName">Data Name</option>
                 </select>
                 <input type="text" id="searchDataNo" placeholder="Search for..." class="form-control">
+                <input type="submit" role="button" id="searchBtn" class="btn btn-action" value="Search">
+                <span id="resultData"></span>
             </div>
         </div>
     </body>
