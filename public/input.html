@@ -35,27 +35,29 @@
                 var dataName = document.getElementById('dataName').value;
                 var dataCode = document.getElementById('dataCode').value;
                 var dataAmount = document.getElementById('dataAmount').value;
+                var dataLocation = document.getElementById('dataLocation').value;
                 
                 firebase.auth().onAuthStateChanged(function(user) {
                     var userRef = database.ref('users/' + user.uid).child('name');
                     var userName = userRef.once("value").then(function(snapshot) {
-                        inputData(dataBrand, dataName, dataCode, dataAmount, snapshot.val());
+                        inputData(dataBrand, dataName, dataCode, dataAmount, snapshot.val(), dataLocation);
                     });                    
                     alert('Input Success.');
                     return;
                 });
             }
             
-            function inputData(dataBrand, dataName, dataCode, amount, userName) {
-                var dataRef = database.ref('data/' + dataBrand);
-                var childDataRef = dataRef.child(dataCode);
+            function inputData(dataBrand, dataName, dataCode, amount, userName, dataLocation) {
+                var dataRef = database.ref('data/' + dataCode);
                 var input = {
+                    data_brand: dataBrand,
                     data_name: dataName,
                     amount: amount,
-                    input_by: userName
+                    input_by: userName,
+                    location: dataLocation
                 };
                 console.log(input);
-                childDataRef.set(input);
+                dataRef.set(input);
             }
             
             function initApp() {
@@ -117,6 +119,8 @@
             <input type="text" id="dataCode" autocomplete="off">
             <label>Quantity</label>
             <input type="number" id="dataAmount" autocomplete="off">
+            <label>Location</label>
+            <input type="text" id="dataLocation" autocomplete="off">
             <input type="submit" role="button" id="inputBtn" class="btn btn-action" value="Submit">
         </div>
     </body>

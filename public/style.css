@@ -169,7 +169,26 @@
     
 /* --- View Data Page --- */
     #view input {
-        width: 100%;
+        width: 100%; 
+    }
+    
+    #search {
+        display: flex;
+        width: 100% !important;
+        padding: 0 !important;
+    }
+    
+    #searchBtn {
+        margin-bottom: 20px;
+        float: right;
+        width: 7% !important;
+        height: 35px;
+        background-color: #039be5;
+        color: #fff;
+    }
+    
+    #searchBtn:hover {
+        background-color: #0084c4;
     }
 }
 

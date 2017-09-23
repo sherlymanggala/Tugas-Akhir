@@ -31,11 +31,69 @@
         <!-- Function code here -->
         <script type="text/javascript">
             function handleOutputData() {
+                var searchType = document.getElementById('selectType').value;
+                var searchInput = document.getElementById('searchData').value;
                 
+                var dbRef = database.ref('data');
+                
+                if (searchType == "dataNumber") {
+                    var dataBrand;
+                    var dataNumber;
+                    var dataName;
+                    var dataAmount;
+                    var dataLocation;
+                    
+                    dbRef.equalTo(searchInput).on('value', function(snapshot) {
+                        console.log(snapshot.child(searchInput).key);
+                        document.getElementById('resultNumber').innerHTML = snapshot.child(searchInput).key;
+                    });
+                    
+                    var dataRef = dbRef.child(searchInput);
+                    dataRef.child("data_brand").on('value', function(snapshot) {
+                        console.log(snapshot.val());
+                        document.getElementById('resultBrand').innerHTML = snapshot.val();
+                    });
+                    
+                    
+                    dataRef.child("data_name").on('value', function(snapshot) {
+                        console.log(snapshot.val());
+                        document.getElementById('resultName').innerHTML = snapshot.val();
+                    });
+                    
+                    dataRef.child("amount").on('value', function(snapshot) {
+                        console.log(snapshot.val());
+                        document.getElementById('resultQty').innerHTML = snapshot.val();
+                    });
+                    
+                    dataRef.child("location").on('value', function(snapshot) {
+                        console.log(snapshot.val());
+                        document.getElementById('resultLocation').innerHTML = snapshot.val();
+                    });
+                }
+                else if (searchType == "dataName") {
+                    var dataRef = dbRef.orderByChild('data_name').equalTo(searchInput).on('value', function(snapshot) {
+                        console.log(snapshot.val());
+                        snapshot.forEach(function(data) {
+                            
+                            var brand = data.child('data_brand').val();
+                            var number = data.key;
+                            var name = data.child('data_name').val();
+                            var amount = data.child('amount').val();
+                            var location = data.child('location').val();
+                            //console.log(number);
+                            
+                            document.getElementById('resultBrand').innerHTML = brand;
+                            document.getElementById('resultNumber').innerHTML = number;
+                            document.getElementById('resultName').innerHTML = name;
+                            document.getElementById('resultQty').innerHTML = amount;
+                            document.getElementById('resultLocation').innerHTML = location;
+                        });
+                    });
+                }
             }
             
             function initApp() {
-                
+                document.getElementById('searchBtn').addEventListener('click', handleOutputData, false);
             }
             
             window.onload = function() {
@@ -79,14 +137,33 @@
         
         <div id="view" class="container">
             <h1>View Data</h1>
-            <div class="container-fluid">
-                <select>
+            <div id="searchContainer" class="container-fluid">
+                <select id="selectType">
                     <option value="dataNumber">Data No.</option>
                     <option value="dataName">Data Name</option>
                 </select>
-                <input type="text" id="searchDataNo" placeholder="Search for..." class="form-control">
-                <input type="submit" role="button" id="searchBtn" class="btn btn-action" value="Search">
-                <span id="resultData"></span>
+                <div id="search" class="container-fluid">
+                    <input type="text" id="searchData" placeholder="Search for..." class="form-control">
+                    <button type="submit" role="button" id="searchBtn" class="btn btn-action"><span class="glyphicon glyphicon-search"></span></button>
+                </div>
+            </div>
+            <div id="tableResult" class="container-fluid">
+                <table class="table">
+                    <tr class="table">
+                        <th class="col-md-2">Brand</th>
+                        <th class="col-md-3">No.</th>
+                        <th class="col-md-4">Name</th>
+                        <th class="col-md-1">Qty</th>
+                        <th class="col-md-2">Location</th>
+                    </tr>
+                    <tr>
+                        <td class="col-md-2" id="resultBrand"></td>
+                        <td class="col-md-3" id="resultNumber"></td>
+                        <td class="col-md-4" id="resultName"></td>
+                        <td class="col-md-1" id="resultQty"></td>
+                        <td class="col-md-2" id="resultLocation"></td>
+                    </tr>
+                </table>
             </div>
         </div>
     </body>
