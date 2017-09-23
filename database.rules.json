@@ -1,6 +1,9 @@
 {
   "rules": {
     ".read": true,
-    ".write": true
+    ".write": true,
+    "data" : {
+      ".indexOn": ["data_name"]
+    }
   }
 }
