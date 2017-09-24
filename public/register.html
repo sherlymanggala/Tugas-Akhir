@@ -1,0 +1,152 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <link rel="stylesheet" type="text/css" href="style.css" media="screen" />
+        
+        <!-- Bootstrap CSS -->
+        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+        <title>Multi&#45;Inventory Prototype Web App</title>
+        
+        <!-- Bootstrap -->
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+        <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+
+        <!-- update the version number as needed -->
+        <script src="https://www.gstatic.com/firebasejs/4.3.0/firebase.js"></script>
+        <script>
+            // Initialize Firebase
+            const config = {
+                apiKey: "AIzaSyA_NK_kBO7DABY-7InCTNK9pNNITHnrlCE",
+                authDomain: "multi-inventory.firebaseapp.com",
+                databaseURL: "https://multi-inventory.firebaseio.com",
+                projectId: "multi-inventory",
+                storageBucket: "multi-inventory.appspot.com",
+            };
+            firebase.initializeApp(config);
+            var database = firebase.database();
+        </script>
+        
+        <script type="text/javascript">            
+            /* --- REGISTER FUNCTION --- */
+            function handleSignUp() {
+                var email = document.getElementById('regEmail').value;
+                var password = document.getElementById('regPass').value;
+                var passTemp = document.getElementById('regPassTemp').value;
+                if (passTemp != password) {
+                    alert('Password does not match.');
+                    return;
+                }
+                if (email.length < 4) {
+                    alert('Please enter a valid email.');
+                    return;
+                }
+                if (password.length < 4) {
+                    alert('Please enter a password.');
+                    return;
+                }
+                
+                //Sign in with email and password.
+                firebase.auth().createUserWithEmailAndPassword(email, password).then(function(user) {
+                    writeUserData(user.uid, document.getElementById('regName').value, user.email, document.getElementById('role').value);
+                    alert('Register succeed.');
+                    window.location.reload();
+                }).catch(function(error) {
+                   //Handle errors here 
+                    var errorCode = error.code;
+                    var errorMessage = error.message;
+                    
+                    if (errorCode == 'auth/weak-password') {
+                        alert('The password is too weak.');
+                    } else {
+                        alert(errorMessage);
+                    }
+                    console.log(error);
+                });
+                
+                /*firebase.auth().onAuthStateChanged(function(user) {
+                     //if user has already logged in or signed in, automaticaly redirect to home 
+                    if (user) {
+                        writeUserData(user.uid, document.getElementById('regName').value, user.email, document.getElementById('role').value);
+                        window.location.reload();
+                    } 
+                });*/
+            }
+            
+            // to push data to database
+            function writeUserData(uid, name, email, role) {
+//                console.log("sending a push command");
+                var userRef = database.ref('users/'+uid);
+                var regist = {
+                    name: name,
+                    email: email,
+                    role: role
+                };
+                console.log(regist);
+                userRef.set(regist);
+            }
+            
+            function initApp() {                
+                /* add event after click submit button */
+                document.getElementById('btnSignUp').addEventListener('click', handleSignUp, false);
+            }
+            
+            /* to automatically load initApp() function */
+            window.onload = function() {
+                initApp();
+            };
+        </script>
+    </head>
+    <body>
+        <!-- Navbar Menu -->
+        <nav class="navbar navbar-default">
+            <div class="container-fluid">
+                <div class="navbar-header">
+                    <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#toggleNavbar">
+                        <span class="icon-bar"></span>
+                        <span class="icon-bar"></span>
+                        <span class="icon-bar"></span>
+                    </button>
+                </div>
+                <div class="collapse navbar-collapse" id="toggleNavbar">
+                    <ul class="nav navbar-nav">
+                        <li><a href="home.html">Home</a></li>
+                        <li><a href="input.html">Input New Data</a></li>
+                        <li><a href="update.html">Update Stock</a></li>
+                        <li><a href="view.html">View Data</a></li>
+                        <li><a href="#">Delete Data</a></li>
+                        
+                        <!-- For dropdown menu -->
+                        <li class="active dropdown">
+                            <a class="dropdown-toggle" data-toggle="dropdown" href="#">Manage Accounts <span class="caret"></span></a>
+                            <ul class="dropdown-menu">
+                                <li class="active"><a href="register.html">Register Account</a></li>
+                                <li><a href="#">Delete Account</a></li>
+                            </ul>
+                        </li>
+                    </ul>
+                    <ul class="nav navbar-nav navbar-right">
+                        <li id="btnLogout"><a href="index.html">Log out</a></li>
+                    </ul>
+                </div>
+            </div>
+        </nav>
+        <!-- End of navbar -->
+        
+        <div id ="index" class="container container-fluid">
+            <div id="register" class="container">
+                <h1>Register New Account</h1>
+                <input type="text" id="regName" placeholder="Full Name">
+                <input id="regEmail" type="email" placeholder="Insert Email">
+                <input id="regPass" type="password" id="password" placeholder="Insert password">
+                <input id="regPassTemp" type="password" placeholder="Please retype password">
+                <select id="role">
+                    <option value="admin">Admin</option>
+                    <option value="user">User</option>
+                </select>
+                <input type="submit" role="button" id="btnSignUp" class="btn btn-action" value="Register">
+            </div>
+        </div>
+    </body>
+</html>

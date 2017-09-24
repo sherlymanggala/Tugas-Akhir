@@ -10,7 +10,11 @@
     }
     
     .container {
-        background: white !important; 
+        background: white !important;
+        padding-top: 20px;
+        width: 80%;
+        max-width: 800px !important;
+        padding-bottom: 10px;
     }
     
     h1 {
@@ -25,7 +29,8 @@
         color: #ffa100 !important; 
         font-weight: bold !important; 
         font-size: 18px !important; 
-        margin: 0 !important;
+        margin: 0 0 16px !important;
+        text-align: center;
     }
     
     h6 {
@@ -97,8 +102,13 @@
     
 /* --- Index Page Section --- */        
     #index {
-        display: flex;
-        padding: 30px 0 20px;
+        display: block;
+        max-width: 480px;
+        width: 480px;
+    }
+    
+    #login {
+        padding: 0 !important;
     }
     
     .header {
@@ -132,6 +142,11 @@
     } 
 /* --- End of index page --- */
     
+/* --- Register Page --- */
+    #register {
+        padding: 0;
+    }
+    
 /* --- Forget Page --- */
     #forget {        
         max-width: 360px !important;
@@ -139,33 +154,6 @@
         margin: 100px auto 16px !important; 
         padding: 32px 24px 15px  !important; 
     }
-    
- /* --- Home Page --- */
-    #home h1 {
-        text-align: center;
-    }
-    
-    .container {
-        max-width: 80% !important;
-        padding-bottom: 10px;
-    }
-    
-/* --- End of Home Page --- */
-
-/* --- Input Data Page --- */
-    /*#input input[type="submit"] {
-        background: #039be5 !important;
-        color: #ffffff !important;
-        padding: 5px 0 5px 0 !important;
-        border-radius: 4px !important;
-        text-transform: uppercase !important;
-        text-decoration: none !important;
-    }*/
-    
-    #brand {
-        float: left;
-    }
-/* --- End of Input Data Page --- */
     
 /* --- View Data Page --- */
     #view input {
@@ -189,6 +177,27 @@
     
     #searchBtn:hover {
         background-color: #0084c4;
+    }
+    
+/* --- End of View Data Page --- */
+
+/* --- Update Stock Page --- */
+    #update {
+        display: grid;
+        grid-template-columns: 1fr 1fr ;
+        grid-template-areas:
+            "option quantity";
+        align-self: center !important;
+    }
+    
+    #option {
+        grid-area: option;
+        margin-top: 16px;
+        height: 36px;
+    }
+    
+    #dataQty {
+        grid-area: quantity;
     }
 }
 
