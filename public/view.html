@@ -32,7 +32,8 @@
         <script type="text/javascript">
             function handleOutputData() {
                 var db = database.ref('data');
-                db.on('value', function(snapshot) {
+                var box = document.getElementsByClassName('tableData')[0];
+                db.once('value', function(snapshot) {
                     for (x in snapshot.val()) {
                         var dbChild = database.ref('data/' + x + '/');
                         dbChild.on('value', function(snapshot2) {
@@ -44,9 +45,37 @@
                             var amount = data["amount"];
                             var location = data["location"];
                             
-                            console.log(data);
+                            //console.log(name);
+                            //console.log(number);
                             
-                            printData(brand, number, name, amount, location);
+                            var tr = document.createElement('tr');
+                            
+                            var td1 = document.createElement('td');
+                            td1.className = 'col-md-2';
+                            td1.innerHTML = brand;
+                            tr.appendChild(td1);
+                            
+                            var td2 = document.createElement('td');
+                            td2.className = 'col-md-3';
+                            td2.innerHTML = number;
+                            tr.appendChild(td2);
+                            
+                            var td3 = document.createElement('td');
+                            td3.className = 'col-md-4';
+                            td3.innerHTML = name;
+                            tr.appendChild(td3);
+                            
+                            var td4 = document.createElement('td');
+                            td4.className = 'col-md-1';
+                            td4.innerHTML = amount;
+                            tr.appendChild(td4);
+                            
+                            var td5 = document.createElement('td');
+                            td5.className = 'col-md-2';
+                            td5.innerHTML = location;
+                            tr.appendChild(td5);
+                            
+                            box.appendChild(tr);
                         });
                     }
                 });
@@ -90,11 +119,12 @@
             }
             
             function printData(brand, number, name, amount, location) {
-                document.getElementById('resultBrand').innerHTML = brand;
+                /*document.getElementById('resultBrand').innerHTML = brand;
                 document.getElementById('resultNumber').innerHTML = number;
                 document.getElementById('resultName').innerHTML = name;
                 document.getElementById('resultQty').innerHTML = amount;
-                document.getElementById('resultLocation').innerHTML = location;
+                document.getElementById('resultLocation').innerHTML = location;*/
+                
             }
             
             function initApp() {
@@ -155,22 +185,22 @@
                     <button type="submit" role="button" id="searchBtn" class="btn btn-action"><span class="glyphicon glyphicon-search"></span></button>
                 </div>
             </div>
-            <div id="tableResult" class="container-fluid">
-                <table class="table">
-                    <tr class="table">
+            <div class="container-fluid">
+                <table class="table tableData">
+                    <tr>
                         <th class="col-md-2">Brand</th>
                         <th class="col-md-3">No.</th>
                         <th class="col-md-4">Name</th>
                         <th class="col-md-1">Qty</th>
                         <th class="col-md-2">Location</th>
                     </tr>
-                    <tr>
+                    <!--<tr>
                         <td class="col-md-2" id="resultBrand"></td>
                         <td class="col-md-3" id="resultNumber"></td>
                         <td class="col-md-4" id="resultName"></td>
                         <td class="col-md-1" id="resultQty"></td>
                         <td class="col-md-2" id="resultLocation"></td>
-                    </tr>
+                    </tr>-->
                 </table>
             </div>
         </div>
