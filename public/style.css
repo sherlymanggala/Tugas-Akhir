@@ -179,6 +179,15 @@
         background-color: #0084c4;
     }
     
+    .glyphicon-remove-sign {
+        color: #ff0000 !important;
+    }
+    
+    .glyphicon-remove-sign:hover {
+        color: #890000 !important;
+        
+    }
+    
 /* --- End of View Data Page --- */
 
 /* --- Update Stock Page --- */

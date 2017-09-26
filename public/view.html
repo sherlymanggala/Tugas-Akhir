@@ -32,6 +32,7 @@
         <script type="text/javascript">
             function handleOutputData() {
                 var db = database.ref('data');
+                var a = parseInt(1,10);
                 var box = document.getElementsByClassName('tableData')[0];
                 db.once('value', function(snapshot) {
                     for (x in snapshot.val()) {
@@ -49,6 +50,7 @@
                             //console.log(number);
                             
                             var tr = document.createElement('tr');
+                            tr.id = ("tr" + a++);
                             
                             var td1 = document.createElement('td');
                             td1.className = 'col-md-2';
@@ -75,7 +77,16 @@
                             td5.innerHTML = location;
                             tr.appendChild(td5);
                             
+                            var del = document.createElement('td');
+                            del.className = 'glyphicon glyphicon-remove-sign';
+                            del.id = "deleteBtn";
+                            del.setAttribute("title", "Delete Data");
+                            del.setAttribute("role", "button");
+                            tr.appendChild(del);
+                            
                             box.appendChild(tr);
+                            
+                            console.log(a);
                         });
                     }
                 });
@@ -154,14 +165,12 @@
                         <li><a href="input.html">Input New Data</a></li>
                         <li><a href="update.html">Update Stock</a></li>
                         <li class="active"><a href="view.html">View Data</a></li>
-                        <li><a href="#">Delete Data</a></li>
                         
                         <!-- For dropdown menu -->
                         <li class="dropdown">
                             <a class="dropdown-toggle" data-toggle="dropdown" href="#">Manage Accounts <span class="caret"></span></a>
                             <ul class="dropdown-menu">
                                 <li><a href="register.html">Register Account</a></li>
-                                <li><a href="#">Delete Account</a></li>
                             </ul>
                         </li>
                     </ul>
