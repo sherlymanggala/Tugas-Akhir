@@ -51,6 +51,7 @@
                             
                             var tr = document.createElement('tr');
                             tr.id = ("tr" + a++);
+                            tr.className = 'something';
                             
                             var td1 = document.createElement('td');
                             td1.className = 'col-md-2';
@@ -129,18 +130,60 @@
                 }
             }
             
-            function printData(brand, number, name, amount, location) {
-                /*document.getElementById('resultBrand').innerHTML = brand;
-                document.getElementById('resultNumber').innerHTML = number;
-                document.getElementById('resultName').innerHTML = name;
-                document.getElementById('resultQty').innerHTML = amount;
-                document.getElementById('resultLocation').innerHTML = location;*/
+            function handleDeleteData() {
                 
+            }
+            
+            function printData(brand, number, name, amount, location) {                
+                var elements = document.getElementsByClassName('something');
+                while(elements.length > 0) {
+                    elements[0].parentNode.removeChild(elements[0]);
+                }
+                
+                var box = document.getElementsByClassName('tableData')[0];
+                
+                var tr = document.createElement('tr');
+                //tr.id = ("tr" + a++);
+
+                var td1 = document.createElement('td');
+                td1.className = 'col-md-2';
+                td1.innerHTML = brand;
+                tr.appendChild(td1);
+
+                var td2 = document.createElement('td');
+                td2.className = 'col-md-3';
+                td2.innerHTML = number;
+                tr.appendChild(td2);
+
+                var td3 = document.createElement('td');
+                td3.className = 'col-md-4';
+                td3.innerHTML = name;
+                tr.appendChild(td3);
+
+                var td4 = document.createElement('td');
+                td4.className = 'col-md-1';
+                td4.innerHTML = amount;
+                tr.appendChild(td4);
+
+                var td5 = document.createElement('td');
+                td5.className = 'col-md-2';
+                td5.innerHTML = location;
+                tr.appendChild(td5);
+
+                var del = document.createElement('td');
+                del.className = 'glyphicon glyphicon-remove-sign';
+                del.id = "deleteBtn";
+                del.setAttribute("title", "Delete Data");
+                del.setAttribute("role", "button");
+                tr.appendChild(del);
+
+                box.appendChild(tr);
             }
             
             function initApp() {
                 handleOutputData();
                 document.getElementById('searchBtn').addEventListener('click', handleSearchData, false);
+                //document.getElementById('deleteBtn').addEventListener('click', handleDeleteData, false);
             }
             
             window.onload = function() {
@@ -203,13 +246,6 @@
                         <th class="col-md-1">Qty</th>
                         <th class="col-md-2">Location</th>
                     </tr>
-                    <!--<tr>
-                        <td class="col-md-2" id="resultBrand"></td>
-                        <td class="col-md-3" id="resultNumber"></td>
-                        <td class="col-md-4" id="resultName"></td>
-                        <td class="col-md-1" id="resultQty"></td>
-                        <td class="col-md-2" id="resultLocation"></td>
-                    </tr>-->
                 </table>
             </div>
         </div>
