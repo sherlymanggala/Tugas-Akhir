@@ -30,64 +30,6 @@
         
         <!-- Function code here -->
         <script type="text/javascript">
-            function handleOutputData() {
-                var db = database.ref('data');
-                var a = parseInt(1,10);
-                var box = document.getElementsByClassName('tableData')[0];
-                db.once('value', function(snapshot) {
-                    for (x in snapshot.val()) {
-                        var dbChild = database.ref('data/' + x + '/');
-                        dbChild.on('value', function(snapshot2) {
-                            var data = snapshot2.val();
-                            
-                            var brand = data["data_brand"];
-                            var number = snapshot2.key;
-                            var name = data["data_name"];
-                            var amount = data["amount"];
-                            var location = data["location"];
-                            
-                            //console.log(name);
-                            //console.log(number);
-                            
-                            var tr = document.createElement('tr');
-                            tr.id = ("tr" + a);
-                            tr.className = 'something';
-                            
-                            var td1 = document.createElement('td');
-                            td1.className = 'col-md-2';
-                            td1.innerHTML = brand;
-                            tr.appendChild(td1);
-                            
-                            var td2 = document.createElement('td');
-                            td2.className = 'col-md-3';
-                            td2.innerHTML = number;
-                            td2.id = "dataNumber" + a;
-                            tr.appendChild(td2);
-                            
-                            var td3 = document.createElement('td');
-                            td3.className = 'col-md-4';
-                            td3.innerHTML = name;
-                            tr.appendChild(td3);
-                            
-                            var td4 = document.createElement('td');
-                            td4.className = 'col-md-1';
-                            td4.innerHTML = amount;
-                            tr.appendChild(td4);
-                            
-                            var td5 = document.createElement('td');
-                            td5.className = 'col-md-2';
-                            td5.innerHTML = location;
-                            tr.appendChild(td5);
-                            
-                            box.appendChild(tr);
-                            
-                            console.log(a);
-                            a++;
-                        });
-                    }
-                });
-            }
-            
             function handleSearchData() {
                 var searchType = document.getElementById('selectType').value;
                 var searchInput = document.getElementById('searchData').value;
@@ -103,9 +45,8 @@
                         var number = snapshot.key;
                         var name = data["data_name"];
                         var amount = data["amount"];
-                        var location = data["location"];
                         
-                        printData(brand, number, name, amount, location);
+                        printData(brand, number, name, amount);
                     });
                 }
                 else if (searchType == "dataName") {
@@ -116,64 +57,78 @@
                             var number = data.key;
                             var name = data.child('data_name').val();
                             var amount = data.child('amount').val();
-                            var location = data.child('location').val();
                             //console.log(number);
                             
-                            printData(brand, number, name, amount, location);
+                            printData(brand, number, name, amount);
                         });
                     });
                 }
             }
             
-            function printData(brand, number, name, amount, location) {                
-                var elements = document.getElementsByClassName('something');
-                while(elements.length > 0) {
-                    elements[0].parentNode.removeChild(elements[0]);
+            function calculateData() {
+                var searchType = document.getElementById('selectType').value;
+                var searchInput = document.getElementById('searchData').value;
+                var quantity = document.getElementById('dataQty').value;
+                var option = document.getElementById('option').value;
+                
+                var dbRef = database.ref('data');
+                var ref = database.ref('data/'+searchInput);
+                
+                if (searchType == "dataNumber") {
+                    ref.once('value', function(snapshot) {
+                        var data = snapshot.val();
+                        var amount = parseInt(data['amount'], 10);
+                        var value = parseInt(quantity, 10);
+                        
+                        if(option == "Increase") {
+                            amount+=value;
+                        }
+                        else {
+                            amount-=value;
+                        }
+                        console.log(amount);
+                        snapshot.ref.update({
+                            amount: amount
+                        });
+                        alert('Update Success');
+                    });
                 }
-                
-                var box = document.getElementsByClassName('tableData')[0];
-                
-                var tr = document.createElement('tr');
-                tr.className = 'something';
-                //tr.id = ("tr" + a++);
+                else if (searchType == "dataName") {
+                    var dataRef = dbRef.orderByChild('data_name').equalTo(searchInput).once('value', function(snapshot) {
+                        console.log(snapshot.val());
+                        snapshot.forEach(function(data) {
+                            var qty = data.child('amount').val();
+                            var amount = parseInt(qty, 10);
+                            var value = parseInt(quantity, 10);
 
-                var td1 = document.createElement('td');
-                td1.className = 'col-md-2';
-                td1.innerHTML = brand;
-                tr.appendChild(td1);
-
-                var td2 = document.createElement('td');
-                td2.className = 'col-md-3';
-                td2.innerHTML = number;
-                td2.id = "dataNumber";
-                tr.appendChild(td2);
-
-                var td3 = document.createElement('td');
-                td3.className = 'col-md-4';
-                td3.innerHTML = name;
-                tr.appendChild(td3);
-
-                var td4 = document.createElement('td');
-                td4.className = 'col-md-1';
-                td4.innerHTML = amount;
-                tr.appendChild(td4);
-
-                var td5 = document.createElement('td');
-                td5.className = 'col-md-2';
-                td5.innerHTML = location;
-                tr.appendChild(td5);
-
-                box.appendChild(tr);
+                            if(option == "Increase") {
+                                amount+=value;
+                                console.log(amount);
+                            }
+                            else {
+                                amount-=value;
+                                console.log(amount);
+                            }
+                            console.log(amount);
+                            data.ref.update({
+                                amount: amount
+                            });
+                            alert('Update Success');
+                        });
+                    });
+                }
+            }
+            
+            function printData(brand, number, name, amount, location) {
+                document.getElementById('resultBrand').innerHTML = brand;
+                document.getElementById('resultNumber').innerHTML = number;
+                document.getElementById('resultName').innerHTML = name;
+                document.getElementById('resultQty').innerHTML = amount;
             }
             
             function initApp() {
-                handleOutputData();
                 document.getElementById('searchBtn').addEventListener('click', handleSearchData, false);
-                
-                /*var input = document.getElementById('searchData').value;
-                if(input == null) {
-                    handleOutputData();
-                }*/
+                document.getElementById('updateBtn').addEventListener('click', calculateData, false);
             }
             
             window.onload = function() {
@@ -196,8 +151,8 @@
                     <ul class="nav navbar-nav">
                         <li><a href="home.html">Home</a></li>
                         <li><a href="input.html">Input New Data</a></li>
-                        <li><a href="update.html">Update Stock</a></li>
-                        <li class="active"><a href="view.html">View Data</a></li>
+                        <li class="active"><a href="update.html">Update Stock</a></li>
+                        <li><a href="view.html">View Data</a></li>
                         
                         <!-- For dropdown menu -->
                         <li class="dropdown">
@@ -215,8 +170,8 @@
         </nav>
         <!-- End of navbar -->
         
-        <div id="view" class="container">
-            <h1>View Data</h1>
+        <div id="input" class="container">
+            <h1>Update Stock</h1>
             <div id="searchContainer" class="container-fluid">
                 <select id="selectType">
                     <option value="dataNumber">Data No.</option>
@@ -226,17 +181,30 @@
                     <input type="text" id="searchData" placeholder="Search for..." class="form-control">
                     <button type="submit" role="button" id="searchBtn" class="btn btn-action"><span class="glyphicon glyphicon-search"></span></button>
                 </div>
-            </div>
-            <div class="container-fluid">
-                <table class="table tableData">
-                    <tr>
-                        <th class="col-md-2">Brand</th>
-                        <th class="col-md-3">No.</th>
-                        <th class="col-md-4">Name</th>
-                        <th class="col-md-1">Qty</th>
-                        <th class="col-md-2">Location</th>
-                    </tr>
-                </table>
+                <div id="tableResult" class="container-fluid">
+                    <table class="table">
+                        <tr class="table">
+                            <th class="col-md-2">Brand</th>
+                            <th class="col-md-3">No.</th>
+                            <th class="col-md-4">Name</th>
+                            <th class="col-md-1">Qty</th>
+                        </tr>
+                        <tr>
+                            <td class="col-md-2" id="resultBrand"></td>
+                            <td class="col-md-3" id="resultNumber"></td>
+                            <td class="col-md-4" id="resultName"></td>
+                            <td class="col-md-1" id="resultQty"></td>
+                        </tr>
+                    </table>
+                </div>
+                <div id="update">
+                    <select id="option">
+                        <option value="Increase">Increase by</option>
+                        <option value="Decrease">Decrease by</option>
+                    </select>
+                    <input type="number" id="dataQty" autocomplete="off" placeholder="quantity..">
+                </div>
+                <input type="submit" role="button" id="updateBtn" class="btn btn-action" value="Submit">
             </div>
         </div>
     </body>
