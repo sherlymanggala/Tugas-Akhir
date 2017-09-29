@@ -123,12 +123,34 @@
                 document.getElementById('resultBrand').innerHTML = brand;
                 document.getElementById('resultNumber').innerHTML = number;
                 document.getElementById('resultName').innerHTML = name;
-                document.getElementById('resultQty').innerHTML = amount;
+                //document.getElementById('resultQty').innerHTML = amount;
             }
             
             function initApp() {
                 document.getElementById('searchBtn').addEventListener('click', handleSearchData, false);
                 document.getElementById('updateBtn').addEventListener('click', calculateData, false);
+                
+                firebase.auth().onAuthStateChanged(function(user) {
+                    if (user) {
+                        var userRef = database.ref('users/' + user.uid).child('role');
+                        userRef.once('value', function(snapshot) {
+                            console.log(snapshot.val());
+                            
+                            if(snapshot.val() == 'user') {                                
+                                //ocument.getElementsByClassName('userRole').remove();
+                                var elements = document.getElementsByClassName('userRole');
+                                while(elements.length > 0) {
+                                    elements[0].parentNode.removeChild(elements[0]);
+                                }
+                            }
+                        });
+                        return;
+                    }
+                    else {
+                        window.location = 'index.html';
+                        alert('Error, you must log in first.');
+                    }
+                });
             }
             
             window.onload = function() {
@@ -153,14 +175,15 @@
                         <li><a href="input.html">Input New Data</a></li>
                         <li class="active"><a href="update.html">Update Stock</a></li>
                         <li><a href="view.html">View Data</a></li>
+                        <li><a href="delete.html">Delete Data</a></li>
                         
                         <!-- For dropdown menu -->
-                        <li class="dropdown">
+                        <!--<li class="dropdown">
                             <a class="dropdown-toggle" data-toggle="dropdown" href="#">Manage Accounts <span class="caret"></span></a>
                             <ul class="dropdown-menu">
                                 <li><a href="register.html">Register Account</a></li>
                             </ul>
-                        </li>
+                        </li>-->
                     </ul>
                     <ul class="nav navbar-nav navbar-right">
                         <li id="btnLogout"><a href="index.html">Log out</a></li>
@@ -187,13 +210,13 @@
                             <th class="col-md-2">Brand</th>
                             <th class="col-md-3">No.</th>
                             <th class="col-md-4">Name</th>
-                            <th class="col-md-1">Qty</th>
+                            <!--<th class="col-md-1">Qty</th>-->
                         </tr>
                         <tr>
                             <td class="col-md-2" id="resultBrand"></td>
                             <td class="col-md-3" id="resultNumber"></td>
                             <td class="col-md-4" id="resultName"></td>
-                            <td class="col-md-1" id="resultQty"></td>
+                            <!--<td class="col-md-1" id="resultQty"></td>-->
                         </tr>
                     </table>
                 </div>

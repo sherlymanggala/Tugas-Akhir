@@ -29,7 +29,7 @@
         </script>
         
         <!-- Function code here -->
-        <script type="text/javascript">
+        <script type="text/javascript">            
             function handleOutputData() {
                 var db = database.ref('data');
                 var a = parseInt(1,10);
@@ -46,49 +46,14 @@
                             var amount = data["amount"];
                             var location = data["location"];
                             
-                            //console.log(name);
-                            //console.log(number);
-                            
-                            var tr = document.createElement('tr');
-                            tr.id = ("tr" + a);
-                            tr.className = 'something';
-                            
-                            var td1 = document.createElement('td');
-                            td1.className = 'col-md-2';
-                            td1.innerHTML = brand;
-                            tr.appendChild(td1);
-                            
-                            var td2 = document.createElement('td');
-                            td2.className = 'col-md-3';
-                            td2.innerHTML = number;
-                            td2.id = "dataNumber" + a;
-                            tr.appendChild(td2);
-                            
-                            var td3 = document.createElement('td');
-                            td3.className = 'col-md-4';
-                            td3.innerHTML = name;
-                            tr.appendChild(td3);
-                            
-                            var td4 = document.createElement('td');
-                            td4.className = 'col-md-1';
-                            td4.innerHTML = amount;
-                            tr.appendChild(td4);
-                            
-                            var td5 = document.createElement('td');
-                            td5.className = 'col-md-2';
-                            td5.innerHTML = location;
-                            tr.appendChild(td5);
-                            
-                            box.appendChild(tr);
-                            
-                            console.log(a);
-                            a++;
+                            printData(brand, number, name, amount, location);
                         });
                     }
                 });
             }
             
             function handleSearchData() {
+                clearData();
                 var searchType = document.getElementById('selectType').value;
                 var searchInput = document.getElementById('searchData').value;
                 
@@ -96,6 +61,7 @@
                 
                 if (searchType == "dataNumber") {
                     var ref = database.ref('data/'+searchInput);
+                    
                     ref.on('value', function(snapshot) {
                         var data = snapshot.val();
                         
@@ -119,23 +85,59 @@
                             var location = data.child('location').val();
                             //console.log(number);
                             
+                            console.log(data);
+                            printData(brand, number, name, amount, location);
+                        });
+                    });
+                }
+                else if (searchType == "dataBrand") {
+                    var dataRef = dbRef.orderByChild('data_brand').equalTo(searchInput).on('value', function(snapshot) {
+                        console.log(snapshot.val());
+                        snapshot.forEach(function(data) {                            
+                            var brand = data.child('data_brand').val();
+                            var number = data.key;
+                            var name = data.child('data_name').val();
+                            var amount = data.child('amount').val();
+                            var location = data.child('location').val();
+                            //console.log(number);
+                            
+                            console.log(data);
+                            printData(brand, number, name, amount, location);
+                        });
+                    });
+                }
+                else if (searchType == "dataLocation") {
+                    var dataRef = dbRef.orderByChild('location').equalTo(searchInput).on('value', function(snapshot) {
+                        console.log(snapshot.val());
+                        snapshot.forEach(function(data) {                            
+                            var brand = data.child('data_brand').val();
+                            var number = data.key;
+                            var name = data.child('data_name').val();
+                            var amount = data.child('amount').val();
+                            var location = data.child('location').val();
+                            //console.log(number);
+                            
+                            console.log(data);
                             printData(brand, number, name, amount, location);
                         });
                     });
                 }
             }
             
-            function printData(brand, number, name, amount, location) {                
+            function clearData() {
                 var elements = document.getElementsByClassName('something');
                 while(elements.length > 0) {
                     elements[0].parentNode.removeChild(elements[0]);
                 }
-                
+            }
+            
+            function printData(brand, number, name, amount, location) {
                 var box = document.getElementsByClassName('tableData')[0];
+                var a = parseInt(1,10);
                 
                 var tr = document.createElement('tr');
                 tr.className = 'something';
-                //tr.id = ("tr" + a++);
+                tr.id = ("tr" + a);
 
                 var td1 = document.createElement('td');
                 td1.className = 'col-md-2';
@@ -164,16 +166,116 @@
                 tr.appendChild(td5);
 
                 box.appendChild(tr);
+                a++;
+            }
+            
+            function test() {
+                var searchType = document.getElementById('selectType').value;
+                if(searchType == 'dataBrand') {
+                    var input, filter, tr, td, i;
+                    var a = parseInt(1,10);
+                    input = document.getElementById('searchData');
+                    filter = input.value.toUpperCase();
+                    tr = document.getElementsByClassName('something');
+                    for(i = 0 ;i<tr.length;i++) {
+                        console.log('somethinggggg');
+                        td = tr[i].getElementsByTagName('td')[0];
+                        if(td.innerHTML.toUpperCase().indexOf(filter) > -1) {
+                            tr[i].style.display = "";
+                        }
+                        else {
+                            tr[i].style.display = "none";
+                        }
+                    }
+                }
+                else if(searchType == 'dataNumber') {
+                    var input, filter, tr, td, i;
+                    var a = parseInt(1,10);
+                    input = document.getElementById('searchData');
+                    filter = input.value.toUpperCase();
+                    tr = document.getElementsByClassName('something');
+                    for(i = 0 ;i<tr.length;i++) {
+                        td = tr[i].getElementsByTagName('td')[1];
+                        if(td.innerHTML.toUpperCase().indexOf(filter) > -1) {
+                            tr[i].style.display = "";
+                        }
+                        else {
+                            tr[i].style.display = "none";
+                        }
+                    }
+                }
+                else if(searchType == 'dataName') {
+                    var input, filter, tr, td, i;
+                    var a = parseInt(1,10);
+                    input = document.getElementById('searchData');
+                    filter = input.value.toUpperCase();
+                    tr = document.getElementsByClassName('something');
+                    for(i = 0 ;i<tr.length;i++) {
+                        td = tr[i].getElementsByTagName('td')[2];
+                        if(td.innerHTML.toUpperCase().indexOf(filter) > -1) {
+                            tr[i].style.display = "";
+                        }
+                        else {
+                            tr[i].style.display = "none";
+                        }
+                    }
+                }
+                
+                else if(searchType == 'dataLocation') {
+                    var input, filter, tr, td, i;
+                    var a = parseInt(1,10);
+                    input = document.getElementById('searchData');
+                    filter = input.value.toUpperCase();
+                    tr = document.getElementsByClassName('something');
+                    for(i = 0 ;i<tr.length;i++) {
+                        td = tr[i].getElementsByTagName('td')[4];
+                        if(td.innerHTML.toUpperCase().indexOf(filter) > -1) {
+                            tr[i].style.display = "";
+                        }
+                        else {
+                            tr[i].style.display = "none";
+                        }
+                    }
+                }
+                
+                /*var input, filter, ul, li, a, i;
+                input = document.getElementById('searchData');
+                filter = input.value.toUpperCase();
+                ul = document.getElementById('myUL');
+                li = ul.getElementsByTagName('li');
+                for(i=0;i<li.length;i++) {
+                    a = li[i].getElementsByTagName('a')[0];
+                    if (a.innerHTML.toUpperCase().indexOf(filter) > -1) {
+                        li[i].style.display = '';
+                    }
+                    else {
+                        li[i].style.display = "none";
+                    }
+                }*/
             }
             
             function initApp() {
+                firebase.auth().onAuthStateChanged(function(user) {
+                    if (user) {
+                        var userRef = database.ref('users/' + user.uid).child('role');
+                        userRef.once('value', function(snapshot) {
+                            console.log(snapshot.val());
+                            
+                            if(snapshot.val() == 'user') {                                
+                                window.location = 'home.html';
+                                alert('Error, you don\'t have access to this page.');
+                            }
+                        });
+                        return;
+                    }
+                    else {
+                        window.location = 'index.html';
+                        alert('Error, you must log in first.');
+                    }
+                });
+                
                 handleOutputData();
                 document.getElementById('searchBtn').addEventListener('click', handleSearchData, false);
-                
-                /*var input = document.getElementById('searchData').value;
-                if(input == null) {
-                    handleOutputData();
-                }*/
             }
             
             window.onload = function() {
@@ -198,14 +300,15 @@
                         <li><a href="input.html">Input New Data</a></li>
                         <li><a href="update.html">Update Stock</a></li>
                         <li class="active"><a href="view.html">View Data</a></li>
+                        <li><a href="delete.html">Delete Data</a></li>
                         
                         <!-- For dropdown menu -->
-                        <li class="dropdown">
+                        <!--<li class="dropdown">
                             <a class="dropdown-toggle" data-toggle="dropdown" href="#">Manage Accounts <span class="caret"></span></a>
                             <ul class="dropdown-menu">
                                 <li><a href="register.html">Register Account</a></li>
                             </ul>
-                        </li>
+                        </li>-->
                     </ul>
                     <ul class="nav navbar-nav navbar-right">
                         <li id="btnLogout"><a href="index.html">Log out</a></li>
@@ -219,15 +322,26 @@
             <h1>View Data</h1>
             <div id="searchContainer" class="container-fluid">
                 <select id="selectType">
+                    <option value="dataBrand">Data Brand</option>
                     <option value="dataNumber">Data No.</option>
                     <option value="dataName">Data Name</option>
+                    <option value="dataLocation">Data Location</option>
                 </select>
                 <div id="search" class="container-fluid">
-                    <input type="text" id="searchData" placeholder="Search for..." class="form-control">
+                    <input type="text" id="searchData" onkeyup="test()" placeholder="Search for..." class="form-control">
                     <button type="submit" role="button" id="searchBtn" class="btn btn-action"><span class="glyphicon glyphicon-search"></span></button>
                 </div>
             </div>
             <div class="container-fluid">
+                <!--<ul id="myUL">
+                    <li><a href="#">Adele</a></li>
+                    <li><a href="#">Agnes</a></li>
+                    <li><a href="#">Billy</a></li>
+                    <li><a href="#">Bob</a></li>
+                    <li><a href="#">Calvin</a></li>
+                    <li><a href="#">Christina</a></li>
+                    <li><a href="#">Cindy</a></li>
+                </ul>-->
                 <table class="table tableData">
                     <tr>
                         <th class="col-md-2">Brand</th>
