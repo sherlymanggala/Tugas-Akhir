@@ -29,78 +29,56 @@
         </script>
         
         <!-- Function code here -->
-        <script type="text/javascript">
-            function handleSearchData() {
-                var searchType = document.getElementById('selectType').value;
+        <script type="text/javascript">            
+            function handleSearchUser() {
                 var searchInput = document.getElementById('searchData').value;
                 
-                var dbRef = database.ref('data');
+                var dbRef = database.ref('users');
                 
-                if (searchType == "dataNumber") {
-                    var ref = database.ref('data/'+searchInput);
-                    ref.on('value', function(snapshot) {
-                        var data = snapshot.val();
-                        
-                        var brand = data["data_brand"];
-                        var number = snapshot.key;
-                        var name = data["data_name"];
-                        var amount = data["amount"];
-                        
-                        printData(brand, number, name, amount);
+                var dataRef = dbRef.orderByChild('email').equalTo(searchInput).once('value', function(snapshot) {
+                    console.log(snapshot.val());
+                    snapshot.forEach(function(data) {                            
+                        var email = data.child('email').val();
+                        var name = data.child('name').val();
+                        var role = data.child('role').val();
+                        //console.log(number);
+
+                        //console.log(data);
+                        printData(email, name, role);
                     });
-                }
-                else if (searchType == "dataName") {
-                    var dataRef = dbRef.orderByChild('data_name').equalTo(searchInput).on('value', function(snapshot) {
-                        console.log(snapshot.val());
-                        snapshot.forEach(function(data) {                            
-                            var brand = data.child('data_brand').val();
-                            var number = data.key;
-                            var name = data.child('data_name').val();
-                            var amount = data.child('amount').val();
-                            //console.log(number);
-                            console.log(data);
-                            printData(brand, number, name, amount);
+                });
+            }
+            
+            function updateRole() {
+                var option = document.getElementById('option').value;
+                var dbRef = database.ref('users');
+                var searchInput = document.getElementById('searchData').value;
+                var dataRef = dbRef.orderByChild('email').equalTo(searchInput).once('value', function(snapshot) {
+                    console.log(snapshot.val());
+                    snapshot.forEach(function(data) {
+                        var role;
+                        if (option == "user") {
+                            role = "user";
+                        }
+                        else {
+                            role = "admin";
+                        }
+                        console.log(data);
+                        data.ref.update({
+                            role: role
                         });
+                        alert("Update Success.");
                     });
-                }
+                });
             }
             
-            function handleDeleteData() {
-                var searchType = document.getElementById('selectType').value;
-                var searchInput = document.getElementById('searchData').value;
-                
-                var ref = database.ref('data/'+searchInput);
-                
-                if (searchType == "dataNumber") {
-                    ref.once('value', function(snapshot) {
-                        var r = confirm("Are you sure?");
-                        if (r) {
-                            ref.remove();
-                            alert('Delete data success.');
-                            window.location.reload();
-                        }
-                    });
-                }
-                else if (searchType == "dataName") {
-                    var dataRef = dbRef.orderByChild('data_name').equalTo(searchInput).once('value', function(snapshot) {
-                        var r = confirm("Are you sure?");
-                        if (r) {
-                            ref.remove();
-                            alert('Delete data success.');
-                            window.location.reload();
-                        }
-                    });
-                }
-            }
-            
-            function printData(brand, number, name, amount, location) {
-                document.getElementById('resultBrand').innerHTML = brand;
-                document.getElementById('resultNumber').innerHTML = number;
+            function printData(email, name, role) {
+                document.getElementById('resultEmail').innerHTML = email;
                 document.getElementById('resultName').innerHTML = name;
-                document.getElementById('resultQty').innerHTML = amount;
+                document.getElementById('resultRole').innerHTML = role;
             }
             
-            function initApp() {                
+            function initApp() {
                 firebase.auth().onAuthStateChanged(function(user) {
                     if (user) {
                         var userRef = database.ref('users/' + user.uid).child('role');
@@ -119,9 +97,8 @@
                         alert('Error, you must log in first.');
                     }*/
                 });
-                document.getElementById('searchBtn').addEventListener('click', handleSearchData, false);
-                document.getElementById('deleteBtn').addEventListener('click', handleDeleteData, false);
-                
+                document.getElementById('searchBtn').addEventListener('click', handleSearchUser, false);
+                document.getElementById('updateBtn').addEventListener('click', updateRole, false);
             }
             
             window.onload = function() {
@@ -146,14 +123,14 @@
                         <li><a href="input.html">Input New Data</a></li>
                         <li><a href="update.html">Update Stock</a></li>
                         <li><a href="view.html">View Data</a></li>
-                        <li class="active"><a href="delete.html">Delete Data</a></li>
+                        <li><a href="delete.html">Delete Data</a></li>
                         
                         <!-- For dropdown menu -->
-                        <li class="dropdown">
+                        <li class="dropdown active">
                             <a class="dropdown-toggle" data-toggle="dropdown" href="#">Manage Accounts <span class="caret"></span></a>
                             <ul class="dropdown-menu">
                                 <li><a href="manage.html">View Accounts</a></li>
-                                <li><a href="change_role.html">Manage User's Role</a></li>
+                                <li class="active"><a href="change_role.html">Manage User's Role</a></li>
                             </ul>
                         </li>
                     </ul>
@@ -166,33 +143,35 @@
         <!-- End of navbar -->
         
         <div id="input" class="container">
-            <h1>Delete Data</h1>
+            <h1>Change User's Role</h1>
             <div id="searchContainer" class="container-fluid">
-                <select id="selectType">
-                    <option value="dataNumber">Data No.</option>
-                    <option value="dataName">Data Name</option>
-                </select>
                 <div id="search" class="container-fluid">
-                    <input type="text" id="searchData" placeholder="Search for..." class="form-control">
+                    <input type="text" id="searchData" placeholder="Input user's email" class="form-control">
                     <button type="submit" role="button" id="searchBtn" class="btn btn-action"><span class="glyphicon glyphicon-search"></span></button>
                 </div>
                 <div id="tableResult" class="container-fluid">
                     <table class="table">
                         <tr class="table">
-                            <th class="col-md-2">Brand</th>
-                            <th class="col-md-3">No.</th>
+                            <th class="col-md-4">Email</th>
                             <th class="col-md-4">Name</th>
-                            <th class="col-md-1">Qty</th>
+                            <th class="col-md-4">Role</th>
+                            <!--<th class="col-md-1">Qty</th>-->
                         </tr>
                         <tr>
-                            <td class="col-md-2" id="resultBrand"></td>
-                            <td class="col-md-3" id="resultNumber"></td>
+                            <td class="col-md-4" id="resultEmail"></td>
                             <td class="col-md-4" id="resultName"></td>
-                            <td class="col-md-1" id="resultQty"></td>
+                            <td class="col-md-4" id="resultRole"></td>
                         </tr>
                     </table>
                 </div>
-                <input type="submit" role="button" id="deleteBtn" class="btn btn-action" value="Delete">
+                <div id="change">
+                    <label>Update Role to:</label>
+                    <select id="option">
+                        <option value="user">User</option>
+                        <option value="admin">Admin</option>
+                    </select>
+                </div>
+                <input type="submit" role="button" id="updateBtn" class="btn btn-action" value="Update">
             </div>
         </div>
     </body>
