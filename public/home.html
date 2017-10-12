@@ -82,9 +82,10 @@
     </head>
     <body>
         <!-- Navbar Menu -->
-        <nav class="navbar navbar-default">
+        <nav class="navbar navbar-inverse">
             <div class="container-fluid">
                 <div class="navbar-header">
+                    <h4><span><i class="glyphicon glyphicon-user"></i></span>&nbsp;<span id="username"></span></h4>
                     <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#toggleNavbar">
                         <span class="icon-bar"></span>
                         <span class="icon-bar"></span>
@@ -93,32 +94,49 @@
                 </div>
                 <div class="collapse navbar-collapse" id="toggleNavbar">
                     <ul class="nav navbar-nav">
-                        <li class="active"><a href="home.html">Home</a></li>
-                        <li><a href="input.html">Input New Data</a></li>
-                        <li><a href="update.html">Update Stock</a></li>
-                        <li class="userRole"><a href="view.html">View Data</a></li>
-                        <li class="userRole"><a href="delete.html">Delete Data</a></li>
-                        
-                         <!--For dropdown menu--> 
+                        <!--<li style="color: #fff;"><a href="#"><span><i class="glyphicon glyphicon-user"></i></span>&nbsp;<span id="username"></span></a></li>-->
+                        <li class="active"><a href="home.html"><span><i class="glyphicon glyphicon-home"></i></span> Home</a></li>
+                        <li><a href="input.html"><span><i class="glyphicon glyphicon-import"></i></span> Input New Data</a></li>
+                        <li><a href="update.html"><span><i class="glyphicon glyphicon-floppy-save"></i></span> Update Stock</a></li>
+                        <li class="userRole"><a href="view.html"><span><i class="glyphicon glyphicon-folder-open"></i></span>  View Data</a></li>
+                        <li class="userRole"><a href="delete.html"><span><i class="glyphicon glyphicon-floppy-remove"></i></span> Delete Data</a></li>
+
+                         <!--For dropdown menu -->
                         <li class="dropdown userRole">
-                            <a class="dropdown-toggle" data-toggle="dropdown" href="#">Manage Accounts <span class="caret"></span></a>
+                            <a class="dropdown-toggle" data-toggle="dropdown" href="#"><span><i class="glyphicon glyphicon-cog"></i></span> Manage Accounts <span class="caret"></span></a>
                             <ul class="dropdown-menu">
                                 <li><a href="manage.html">View Accounts</a></li>
                                 <li><a href="change_role.html">Manage User's Role</a></li>
                             </ul>
                         </li>
-                    </ul>
-                    <ul class="nav navbar-nav navbar-right">
-                        <li id="btnLogout"><a href="#">Log out</a></li>
+                        <li id="btnLogout"><a href="index.html"><span><i class="glyphicon glyphicon-log-out"></i></span> Log out</a></li>                      
                     </ul>
                 </div>
             </div>
         </nav>
         <!-- End of navbar -->
         
-        <div id="home" class="container">
-            <h1>Welcome back, <span id="username"></span></h1>
-            <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Ut viverra sem euismod, mattis ipsum id, cursus odio. Nulla ligula nibh, sollicitudin nec elit non, consequat lacinia turpis. Donec fringilla sollicitudin enim, quis fringilla neque molestie vitae. Suspendisse potenti. Duis vitae commodo lacus, nec imperdiet augue. Suspendisse vel eleifend velit. Quisque semper porttitor vestibulum. Phasellus fermentum, enim id convallis tempor, sapien enim venenatis diam, eget viverra arcu lectus eu erat. Cras sed aliquam orci. Suspendisse scelerisque purus eu placerat ullamcorper. Vestibulum tristique urna sollicitudin ante volutpat gravida. Mauris sollicitudin urna rhoncus iaculis bibendum. Sed ornare elit sed nunc cursus commodo.</p>
+        <div id="home" class="body">
+            <!--<h1>Welcome back, <span id="username"></span></h1>-->
+            <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Ut cursus neque odio, ac congue tortor condimentum nec. Morbi placerat nunc in finibus scelerisque. In hac habitasse platea dictumst. Mauris id rutrum tortor. Etiam porta placerat nisi et varius. Proin vehicula magna sit amet metus viverra, sit amet bibendum ipsum ornare. Mauris placerat nisi sit amet porta ullamcorper. Nunc faucibus tellus ac enim molestie dictum. Phasellus maximus nunc sit amet velit tempor, eu gravida quam luctus. Duis tempus laoreet sem ac malesuada. Donec in leo quam. Suspendisse nec augue dapibus, dictum erat et, interdum eros.
+
+Nullam at mattis mauris, ultricies gravida sapien. Sed sodales tristique nibh, vitae ornare metus congue ac. Vestibulum finibus, quam at viverra ultricies, justo metus suscipit tortor, non porta sem sem id dui. Nullam mollis tristique magna nec vulputate. Nullam sed dapibus erat, ut congue ligula. Nulla facilisi. In eu neque ut tellus porta consectetur. Praesent sit amet libero et ex pharetra bibendum. Aliquam aliquam sapien sed sagittis suscipit. Integer enim eros, consectetur id erat et, rutrum faucibus nibh. Mauris lobortis augue sem, a aliquam magna eleifend at. Pellentesque vel scelerisque neque. Morbi at vestibulum libero. Pellentesque in arcu orci. Sed suscipit, purus vitae commodo facilisis, leo diam bibendum ante, ac finibus est sapien nec lectus.
+
+Fusce lacus orci, rutrum aliquam vehicula vitae, laoreet sit amet nulla. Donec consequat varius pharetra. Aliquam dictum, ipsum et scelerisque sodales, massa mauris rhoncus ipsum, vel dictum mi mi nec quam. Praesent eget semper eros, vitae molestie erat. Vestibulum sagittis dui et mi gravida hendrerit. Mauris fringilla consectetur elementum. Mauris tincidunt, risus id vestibulum imperdiet, justo dolor consectetur nulla, at luctus turpis justo ac neque. Quisque sit amet eleifend dui. Nulla efficitur ipsum id quam gravida, in porta turpis facilisis. Morbi quis massa quis libero maximus pretium sed id lorem. Sed laoreet convallis turpis id faucibus. Nunc pulvinar mi justo, ac accumsan nisi luctus id. Vestibulum at molestie erat, non placerat massa. Fusce consectetur ipsum vitae enim vulputate pretium. Nam nec vulputate orci.
+
+Cras ac sem eu purus vestibulum convallis. Nam accumsan libero sem, ut molestie erat ornare id. Aliquam finibus eros risus, ac pulvinar neque commodo sit amet. Pellentesque habitant morbi tristique senectus et netus et malesuada fames ac turpis egestas. Vivamus mattis semper ligula mattis euismod. Proin porttitor nec justo id faucibus. Donec a molestie nulla, a euismod dui. Proin sit amet lorem malesuada, elementum elit in, venenatis tellus. Vivamus pharetra purus sit amet dui bibendum, et fringilla nisi molestie. Curabitur rutrum hendrerit enim. Fusce laoreet, orci non condimentum laoreet, elit ante vulputate nulla, a tincidunt lectus metus a ipsum. Aliquam sed volutpat quam, sit amet varius mi. Vestibulum eget risus erat. Donec interdum volutpat magna in dignissim.
+
+Aliquam efficitur augue nec commodo congue. Nulla eget sodales erat. Aliquam tincidunt venenatis ante quis congue. Vestibulum in volutpat arcu. Praesent sit amet metus porttitor, eleifend ligula eget, mollis mi. Nullam non orci neque. Maecenas ac elit a augue interdum elementum. Pellentesque eget augue mi. Nullam at imperdiet tortor. Quisque varius, ligula imperdiet mollis dapibus, turpis purus tristique urna, non luctus risus tortor vitae justo.
+
+Fusce fringilla suscipit nulla, eu maximus enim viverra ac. In viverra tristique mattis. Proin dignissim malesuada erat, non molestie sapien. Nunc vitae lectus eget nulla sodales gravida ut vel metus. Pellentesque ligula lacus, commodo at mi sed, bibendum cursus elit. Fusce eleifend metus et velit consequat, eget molestie tortor finibus. Suspendisse convallis felis eu scelerisque bibendum. Phasellus ornare, turpis et volutpat vestibulum, orci tortor auctor nisl, et pulvinar leo dolor id dui. Vestibulum in eros ultrices, semper augue non, dapibus est. Vivamus ut posuere metus. Sed nec vehicula justo. Sed auctor mollis nunc vitae volutpat. Vivamus ante leo, feugiat sed luctus a, auctor id lacus. Nulla eget rutrum sapien.
+
+Proin blandit purus ut bibendum pulvinar. Pellentesque commodo sit amet lorem nec malesuada. Sed ut purus eu odio tempus tristique blandit vitae nunc. Sed venenatis, est et bibendum aliquet, diam felis finibus ligula, eget efficitur erat odio a erat. Praesent facilisis risus eget lacus aliquam, sit amet fermentum turpis convallis. Nam nec commodo eros. Sed vitae orci vel turpis feugiat maximus. Nam vitae hendrerit dolor. Fusce dictum ac ligula et lacinia. Duis tellus massa, accumsan quis est et, sodales eleifend purus. Fusce elementum eros in odio sodales placerat. Aliquam ut risus venenatis, venenatis odio at, vehicula est. Duis sed massa sollicitudin neque dictum aliquet. Proin iaculis mi non est cursus dignissim.
+
+Praesent imperdiet viverra nisi nec porta. Vestibulum ac sapien felis. Nullam molestie neque vitae suscipit blandit. Quisque a erat vitae erat accumsan porttitor. Vestibulum sodales sapien est, at maximus sem mollis id. Vestibulum ante ipsum primis in faucibus orci luctus et ultrices posuere cubilia Curae; Nunc ac pretium tortor. Donec dapibus felis quis elit porta commodo. Praesent volutpat, metus commodo viverra dignissim, mauris orci fringilla libero, ut blandit metus metus sit amet sapien. Nulla facilisi. Cras euismod congue tristique.
+
+Nullam faucibus ipsum quis leo venenatis cursus. Mauris nec odio velit. Mauris sollicitudin est non nibh auctor, non varius ex ullamcorper. Proin imperdiet vehicula massa in placerat. Aliquam at pulvinar lorem, at rhoncus magna. Class aptent taciti sociosqu ad litora torquent per conubia nostra, per inceptos himenaeos. Vivamus ex ipsum, feugiat nec enim nec, aliquam auctor ex.
+
+Nulla interdum semper tortor, id ultrices nibh finibus ac. Donec non ante ante. Nulla ac ultrices sapien, in varius est. Nullam eget sodales urna. Nunc eu mi nec elit facilisis egestas a sit amet ipsum. Aenean placerat neque odio, semper consequat purus ultrices ut. Donec sollicitudin rhoncus nisi eu pharetra. Duis finibus, turpis nec mattis rutrum, felis nibh dapibus metus, in ullamcorper sem massa at diam. Proin mattis vel arcu lacinia luctus. Duis a nibh tristique, gravida nibh ac, egestas tellus. Aliquam accumsan a ante in fermentum.</p>
         </div>
     </body>
 </html>

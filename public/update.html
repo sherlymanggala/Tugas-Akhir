@@ -126,12 +126,22 @@
                 //document.getElementById('resultQty').innerHTML = amount;
             }
             
+            function readUser(userId) {
+                var userRef = firebase.database().ref('users/' + userId);
+                var nameRef = userRef.child('name');
+                nameRef.once("value").then(function(snapshot) {
+                    console.log(snapshot.val());
+                    document.getElementById('username').innerHTML = snapshot.val();
+                });
+            }
+            
             function initApp() {
                 document.getElementById('searchBtn').addEventListener('click', handleSearchData, false);
                 document.getElementById('updateBtn').addEventListener('click', calculateData, false);
                 
                 firebase.auth().onAuthStateChanged(function(user) {
                     if (user) {
+                        readUser(user.uid);
                         var userRef = database.ref('users/' + user.uid).child('role');
                         userRef.once('value', function(snapshot) {
                             console.log(snapshot.val());
@@ -160,9 +170,10 @@
     </head>
     <body>
         <!-- Navbar Menu -->
-        <nav class="navbar navbar-default">
+        <nav class="navbar navbar-inverse">
             <div class="container-fluid">
                 <div class="navbar-header">
+                    <h4><span><i class="glyphicon glyphicon-user"></i></span>&nbsp;<span id="username"></span></h4>
                     <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#toggleNavbar">
                         <span class="icon-bar"></span>
                         <span class="icon-bar"></span>
@@ -171,29 +182,29 @@
                 </div>
                 <div class="collapse navbar-collapse" id="toggleNavbar">
                     <ul class="nav navbar-nav">
-                        <li><a href="home.html">Home</a></li>
-                        <li><a href="input.html">Input New Data</a></li>
-                        <li class="active"><a href="update.html">Update Stock</a></li>
-                        <li><a href="view.html">View Data</a></li>
-                        <li><a href="delete.html">Delete Data</a></li>
-                        
-                        <!-- For dropdown menu -->
-                        <li class="dropdown">
-                            <a class="dropdown-toggle" data-toggle="dropdown" href="#">Manage Accounts <span class="caret"></span></a>
+                        <!--<li style="color: #fff;"><a href="#"><span><i class="glyphicon glyphicon-user"></i></span>&nbsp;<span id="username"></span></a></li>-->
+                        <li><a href="home.html"><span><i class="glyphicon glyphicon-home"></i></span> Home</a></li>
+                        <li><a href="input.html"><span><i class="glyphicon glyphicon-import"></i></span> Input New Data</a></li>
+                        <li class="active"><a href="update.html"><span><i class="glyphicon glyphicon-floppy-save"></i></span> Update Stock</a></li>
+                        <li class="userRole"><a href="view.html"><span><i class="glyphicon glyphicon-folder-open"></i></span>  View Data</a></li>
+                        <li class="userRole"><a href="delete.html"><span><i class="glyphicon glyphicon-floppy-remove"></i></span> Delete Data</a></li>
+
+                         <!--For dropdown menu -->
+                        <li class="dropdown userRole">
+                            <a class="dropdown-toggle" data-toggle="dropdown" href="#"><span><i class="glyphicon glyphicon-cog"></i></span> Manage Accounts <span class="caret"></span></a>
                             <ul class="dropdown-menu">
                                 <li><a href="manage.html">View Accounts</a></li>
+                                <li><a href="change_role.html">Manage User's Role</a></li>
                             </ul>
                         </li>
-                    </ul>
-                    <ul class="nav navbar-nav navbar-right">
-                        <li id="btnLogout"><a href="index.html">Log out</a></li>
+                        <li id="btnLogout"><a href="index.html"><span><i class="glyphicon glyphicon-log-out"></i></span> Log out</a></li>                      
                     </ul>
                 </div>
             </div>
         </nav>
         <!-- End of navbar -->
         
-        <div id="input" class="container">
+        <div id="input" class="body">
             <h1>Update Stock</h1>
             <div id="searchContainer" class="container-fluid">
                 <select id="selectType">

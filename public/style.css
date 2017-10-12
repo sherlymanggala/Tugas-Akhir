@@ -1,3 +1,26 @@
+@media screen and (min-width: 767px) {
+    nav {
+        float: left;
+        height: 100vh;
+        max-width: 150px;
+        width: 150px;
+        position: fixed !important;
+        overflow: auto;
+        margin: 0 !important;
+        border-radius: 0!important;
+    }
+    
+    nav div {
+        padding: 0 !important;
+    }
+    
+    nav ul li {
+        padding: 2px;
+        display: block !important;
+        width: 100%;
+    }
+}
+
 /* ==== For Web View ==== */
 @media screen and (min-width: 240px) {
     
@@ -7,15 +30,34 @@
         color: rgba(0,0,0,0.87) !important; 
         font-family: Roboto, Helvetica, Arial, sans-serif !important; 
         margin: 0 !important; 
-        padding: 0 !important;        
+        padding: 0 !important; 
+        width: 100%;
     }
     
-    .container {
+    .container{
         background: white !important;
         padding-top: 20px;
         width: 80%;
-        max-width: 800px !important;
+        max-width: 800px;
         padding-bottom: 10px;
+    }
+    
+    .body {
+        background: white;
+        padding: 30px 20px 30px 170px !important;
+        margin-right: 0 !important;
+        width: 100% !important;
+        height: 100vh;
+    }
+    
+    nav h4 {
+        color: #fff;
+        padding-left: 16px;
+    }
+    
+    .nav > .glyphicon-user {
+        margin-left: 12px; !important;
+        color: #fff;
     }
     
     h1 {
@@ -83,7 +125,6 @@
         font-size: 0.95em;
         font-weight: 300 !important;
     }
-    
 /* ====== End of General Section ===== */
 
 /* ====== Page Section ===== */
@@ -222,7 +263,7 @@
 /* ==== END OF WEB VIEW ==== */
 }
 /* For Mobile View */
-@media (max-width: 600px) {
+@media (max-width: 767px) {
     body, .container { 
         margin-top: 0!important;
         margin-bottom: 10px !important;
@@ -236,8 +277,34 @@
         border-top: 16px solid #ffa100 ;
     }
     
+    .body {
+        padding: 10px !important;
+        margin-top: 0!important;
+        margin-bottom: 10px !important;
+        background: white !important; 
+        box-shadow: none !important;
+        width: 100% !important;
+    }
+    
     /* --- Index Page --- */
     #index {
         display: inline;
+        text-align: center;
+    }
+    
+    nav {
+        position: fixed;
+        overflow: hidden;
+    }
+    
+    .navbar-header > h4 {
+        float: left;
+        padding-left: 10px;
+        color: #fff;
+        vertical-align: middle;
+    }
+    
+    #searchBtn {
+        width: 40px !important;
     }
 }
