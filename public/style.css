@@ -186,6 +186,52 @@
         padding: 32px 24px 15px  !important; 
     }
     
+/* --- Home Page --- */
+    #home {
+        display: grid;
+        grid-template-areas: 
+            "invent invent"
+            "stock product";
+        grid-template-rows: 200px 1fr;
+        grid-template-columns: 1fr 1fr;
+    }
+    
+    #inventSummary {
+        border-bottom: 1px #000 solid;
+        grid-area: invent;
+        height: 200px;
+    }
+    
+    #stockLow {
+        border-right: 1px #000 solid;
+        grid-area: stock;
+        padding-top: 5px;
+    }
+    
+    #productDetail {
+        grid-area: product;
+        padding-top: 5px;
+    }
+    
+    #inventContainer {
+        display: grid;
+        grid-template-areas: auto;
+        grid-template-rows: 1fr 1fr 1fr;
+        grid-template-areas: "total itemIn itemOut";
+    }
+    
+    #totalItems {
+        grid-area: total;
+    }
+    
+    #itemsIn {
+        grid-area: itemIn;
+    }
+    
+    #itemsOut {
+        grid-area: itemOut;
+    }
+    
 /* --- View Data Page --- */
     #view input {
         width: 100%; 
