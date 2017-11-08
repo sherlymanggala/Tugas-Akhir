@@ -3,10 +3,10 @@
     ".read": true,
     ".write": true,
     "data" : {
-      ".indexOn": ["data_name", "data_brand", "location"]
+      ".indexOn": ["data_name", "data_brand", "location", "amount", "amountIn", "amountOut", ".value"]
     },
-    "users" : {
-      ".indexOn" : ["email", "name", "role"]
+    "users": {
+        ".indexOn": ["email", "name", "role"]
     }
   }
 }
