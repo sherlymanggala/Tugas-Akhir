@@ -222,14 +222,23 @@
     
     #totalItems {
         grid-area: total;
+        text-align: center;
+    }
+    
+    #numbTotalItems, #numbItemsIn, #numbItemsOut {
+        font-size: 70px;
+        font-weight: 200;
+        font-family: Roboto;
     }
     
     #itemsIn {
         grid-area: itemIn;
+        text-align: center;
     }
     
     #itemsOut {
         grid-area: itemOut;
+        text-align: center;
     }
     
 /* --- View Data Page --- */

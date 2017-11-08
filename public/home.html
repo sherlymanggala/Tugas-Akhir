@@ -48,6 +48,164 @@
                 });
             }
             
+            function getTotalItems() {
+                var dbRef = firebase.database().ref('data');
+                var totalItems = 0;
+                
+                dbRef.once('value', function(snapshot) {
+                    /*console.log(snapshot.val());*/
+                    snapshot.forEach(function(data) {
+                        var amount = parseInt(data.child('amount').val(), 10);
+                        /*console.log(amount);*/
+                        totalItems+=amount;
+                        document.getElementById('numbTotalItems').innerHTML = totalItems;
+                    });
+                });
+            }
+            
+            function getItemsIn() {
+                var dbRef = firebase.database().ref('data');
+                var itemsIn = 0;
+                
+                dbRef.once('value', function(snapshot) {
+                    /*console.log(snapshot.val());*/
+                    snapshot.forEach(function(data) {
+                        var amount = parseInt(data.child('amountIn').val(), 10);
+                        /*console.log(amount);*/
+                        itemsIn+=amount;
+                        document.getElementById('numbItemsIn').innerHTML = itemsIn;
+                    });
+                });
+            }
+            
+            function getItemsOut() {
+                var dbRef = firebase.database().ref('data');
+                var itemsOut = 0;
+                
+                dbRef.once('value', function(snapshot) {
+                    /*console.log(snapshot.val());*/
+                    snapshot.forEach(function(data) {
+                        var amount = parseInt(data.child('amountOut').val(), 10);
+                        /*console.log(amount);*/
+                        itemsOut+=amount;
+                        document.getElementById('numbItemsOut').innerHTML = itemsOut;
+                    });
+                });
+            }
+            
+            function sortStockInLow() {
+                var dbRef = firebase.database().ref('data');
+                
+                dbRef.orderByValue().limitToFirst(20).on('value', function(snapshot) {
+                    //console.log(snapshot.val());
+                    snapshot.forEach(function(data) {
+                        var box = document.getElementsByClassName('stockTable')[0];
+                        var a = parseInt(1,10);
+                        
+                        var number = data.key;
+                        var name = data.child('data_name').val();
+                        var amount = data.child('amount').val();
+
+                        var tr = document.createElement('tr');
+                        tr.id = ("tr" + a);
+
+                        var td1 = document.createElement('td');
+                        td1.innerHTML = number;
+                        tr.appendChild(td1);
+
+                        var td2 = document.createElement('td');
+                        td2.innerHTML = name;
+                        tr.appendChild(td2);
+
+                        var td3 = document.createElement('td');
+                        td3.innerHTML = amount;
+                        tr.appendChild(td3);
+                        
+                        box.appendChild(tr);
+                        
+                        if (amount <= 5) {
+                            document.getElementById("tr" + a).style.color = "red";
+                        }
+                        
+                        a++;
+                    });
+                });
+            }
+            
+            function sortItemsIn() {
+                var dbRef = firebase.database().ref('data');
+                
+                dbRef.orderByChild('amountIn').limitToLast(5).on('value', function(snapshot) {
+                    console.log(snapshot.val());
+                    snapshot.forEach(function(data) {
+                        var box = document.getElementsByClassName('itemInTable')[0];
+                        var a = parseInt(1,10);
+                        
+                        var number = data.key;
+                        var name = data.child('data_name').val();
+                        var amount = data.child('amountIn').val();
+
+                        var tr = document.createElement('tr');
+                        tr.id = ("tr" + a);
+
+                        var td1 = document.createElement('td');
+                        td1.innerHTML = number;
+                        tr.appendChild(td1);
+
+                        var td2 = document.createElement('td');
+                        td2.innerHTML = name;
+                        tr.appendChild(td2);
+
+                        var td3 = document.createElement('td');
+                        td3.innerHTML = amount;
+                        tr.appendChild(td3);
+                        
+                        box.appendChild(tr);
+                        
+                        document.getElementById("tr" + a).style.marginLeft = "5px";
+                        
+                        a++;
+                    });
+                });
+            }
+            
+            function sortItemsOut() {
+                var dbRef = firebase.database().ref('data');
+                
+                dbRef.orderByChild('amountOut').limitToLast(5).on('value', function(snapshot) {
+                    console.log(snapshot.val());
+                    snapshot.forEach(function(data) {
+                        var box = document.getElementsByClassName('itemOutTable')[0];
+                        var a = parseInt(1,10);
+                        
+                        var number = data.key;
+                        var name = data.child('data_name').val();
+                        var amount = data.child('amountOut').val();
+
+                        var tr = document.createElement('tr');
+                        tr.id = ("tr" + a);
+
+                        var td1 = document.createElement('td');
+                        td1.innerHTML = number;
+                        tr.appendChild(td1);
+
+                        var td2 = document.createElement('td');
+                        td2.innerHTML = name;
+                        tr.appendChild(td2);
+
+                        var td3 = document.createElement('td');
+                        td3.innerHTML = amount;
+                        tr.appendChild(td3);
+                        
+                        box.appendChild(tr);
+                        
+                        document.getElementById("tr" + a).style.marginLeft = "5px";
+                        
+                        a++;
+                    });
+                });
+            }
+            
             function initApp() {
                 firebase.auth().onAuthStateChanged(function(user) {
                     if (user) {
@@ -66,13 +224,19 @@
                         });
                         return;
                     }
-                    /*else {
+                    else {
                         window.location = 'index.html';
                         alert('Error, you must log in first.');
-                    }*/
+                    }
                 });
                 
                 document.getElementById('btnLogout').addEventListener('click', handleLogout, false);
+                getTotalItems();
+                getItemsIn();
+                getItemsOut();
+                sortStockInLow();
+                sortItemsIn();
+                sortItemsOut();
             }
             
             window.onload = function() {
@@ -121,24 +285,47 @@
                 <h1>Inventory Summary</h1>
                 <div id="inventContainer">
                     <div id="totalItems">
-                        <span></span>
+                        <span id="numbTotalItems"></span>
                         <h2>Total Items</h2>
                     </div>
                     <div id="itemsIn">
-                        <span></span>
+                        <span id="numbItemsIn"></span>
                         <h2>Items In</h2>
                     </div>
                     <div id="itemsOut">
-                        <span></span>
+                        <span id="numbItemsOut"></span>
                         <h2>Items Out</h2>
                     </div>
                 </div>
             </div>
             <div id="stockLow">
                 <h1>Stock in Low</h1>
+                <table class="table stockTable">
+                    <tr>
+                        <th class="col-md-3">No.</th>
+                        <th class="col-md-4">Name</th>
+                        <th class="col-md-1">Qty</th>
+                    </tr>
+                </table>
             </div>
             <div id="productDetail">
                 <h1>Product Detail</h1>
+                <h2>Most Item In</h2>
+                <table class="table itemInTable">
+                    <tr>
+                        <th class="col-md-3">No.</th>
+                        <th class="col-md-4">Name</th>
+                        <th class="col-md-1">Qty</th>
+                    </tr>
+                </table>
+                <h2>Most Item Out</h2>
+                <table class="table itemOutTable">
+                    <tr>
+                        <th class="col-md-3">No.</th>
+                        <th class="col-md-4">Name</th>
+                        <th class="col-md-1">Qty</th>
+                    </tr>
+                </table>
             </div>
         </div>
     </body>

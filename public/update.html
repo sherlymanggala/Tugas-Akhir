@@ -32,7 +32,7 @@
         <script type="text/javascript">
             function handleSearchData() {
                 var searchType = document.getElementById('selectType').value;
-                var searchInput = document.getElementById('searchData').value;
+                var searchInput = document.getElementById('searchData').value.toUpperCase();
                 
                 var dbRef = database.ref('data');
                 
@@ -78,19 +78,26 @@
                     ref.once('value', function(snapshot) {
                         var data = snapshot.val();
                         var amount = parseInt(data['amount'], 10);
+                        var amountIn = parseInt(data['amountIn'], 10);
+                        var amountOut = parseInt(data['amountOut'], 10);
                         var value = parseInt(quantity, 10);
                         
                         if(option == "Increase") {
                             amount+=value;
+                            amountIn+=value;
                         }
                         else {
                             amount-=value;
+                            amountOut+=value;
                         }
                         console.log(amount);
                         snapshot.ref.update({
-                            amount: amount
+                            amount: amount,
+                            amountIn: amountIn,
+                            amountOut: amountOut
                         });
                         alert('Update Success');
+                        window.location.reload();
                     });
                 }
                 else if (searchType == "dataName") {
@@ -99,21 +106,28 @@
                         snapshot.forEach(function(data) {
                             var qty = data.child('amount').val();
                             var amount = parseInt(qty, 10);
+                            var amountIn = parseInt(data.child('amountIn').val(), 10);
+                            var amountOut = parseInt(data.child('amountOut').val(), 10);
                             var value = parseInt(quantity, 10);
 
                             if(option == "Increase") {
                                 amount+=value;
+                                amountIn+=value;
                                 console.log(amount);
                             }
                             else {
                                 amount-=value;
+                                amountOut+=value;
                                 console.log(amount);
                             }
                             console.log(amount);
                             data.ref.update({
-                                amount: amount
+                                amount: amount,
+                                amountIn: amountIn,
+                                amountOut: amountOut
                             });
                             alert('Update Success');
+                            window.location.reload();
                         });
                     });
                 }
@@ -137,6 +151,18 @@
             
             function initApp() {
                 document.getElementById('searchBtn').addEventListener('click', handleSearchData, false);
+                document.getElementById('searchData').addEventListener('keyup', function (e) {
+                    e.preventDefault();
+                    if(e.keyCode === 13) {
+                        document.getElementById("searchBtn").click();
+                    }
+                });
+                document.getElementById('dataQty').addEventListener('keyup', function (e) {
+                    e.preventDefault();
+                    if(e.keyCode === 13) {
+                        document.getElementById("updateBtn").click();
+                    }
+                });
                 document.getElementById('updateBtn').addEventListener('click', calculateData, false);
                 
                 firebase.auth().onAuthStateChanged(function(user) {
@@ -156,10 +182,10 @@
                         });
                         return;
                     }
-                    /*else {
+                    else {
                         window.location = 'index.html';
                         alert('Error, you must log in first.');
-                    }*/
+                    }
                 });
             }
             
@@ -212,7 +238,7 @@
                     <option value="dataName">Data Name</option>
                 </select>
                 <div id="search" class="container-fluid">
-                    <input type="text" id="searchData" placeholder="Search for..." class="form-control">
+                    <input autofocus="autofocus" type="text" id="searchData" placeholder="Search for..." autocomplete="off" class="form-control">
                     <button type="submit" role="button" id="searchBtn" class="btn btn-action"><span class="glyphicon glyphicon-search"></span></button>
                 </div>
                 <div id="tableResult" class="container-fluid">

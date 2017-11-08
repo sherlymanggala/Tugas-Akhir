@@ -169,7 +169,7 @@
                 a++;
             }
             
-            function test() {
+            function searchData() {
                 var searchType = document.getElementById('selectType').value;
                 if(searchType == 'dataBrand') {
                     var input, filter, tr, td, i;
@@ -278,10 +278,10 @@
                         });
                         return;
                     }
-                    /*else {
+                    else {
                         window.location = 'index.html';
                         alert('Error, you must log in first.');
-                    }*/
+                    }
                 });
                 
                 handleOutputData();
@@ -339,7 +339,7 @@
                     <option value="dataLocation">Data Location</option>
                 </select>
                 <div id="search" class="container-fluid">
-                    <input type="text" id="searchData" onkeyup="test()" placeholder="Search for..." class="form-control">
+                    <input type="text" id="searchData" onkeyup="searchData()" placeholder="Search for..." class="form-control">
                     <button type="submit" role="button" id="searchBtn" class="btn btn-action"><span class="glyphicon glyphicon-search"></span></button>
                 </div>
             </div>
