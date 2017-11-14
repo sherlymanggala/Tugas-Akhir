@@ -32,7 +32,7 @@
         <script type="text/javascript">
             function handleSearchData() {
                 var searchType = document.getElementById('selectType').value;
-                var searchInput = document.getElementById('searchData').value;
+                var searchInput = document.getElementById('searchData').value.toUpperCase();
                 
                 var dbRef = database.ref('data');
                 
@@ -45,8 +45,9 @@
                         var number = snapshot.key;
                         var name = data["data_name"];
                         var amount = data["amount"];
+                        var location = data["location"];
                         
-                        printData(brand, number, name, amount);
+                        print(brand, number, name, amount, location);
                     });
                 }
                 else if (searchType == "dataName") {
@@ -57,47 +58,65 @@
                             var number = data.key;
                             var name = data.child('data_name').val();
                             var amount = data.child('amount').val();
+                            var location = data.child('location').val();
                             //console.log(number);
-                            console.log(data);
-                            printData(brand, number, name, amount);
+                            
+                            print(brand, number, name, amount, location);
                         });
                     });
                 }
             }
             
-            function handleDeleteData() {
+            function print(brand, number, name, amount, location) {
+                document.getElementById('dataBrand').value = brand;
+                document.getElementById('dataCode').value = number;
+                document.getElementById('dataName').value = name;
+                document.getElementById('dataAmount').value = amount;
+                document.getElementById('dataLocation').value = location;
+            }
+            
+            function updateData() {
                 var searchType = document.getElementById('selectType').value;
                 var searchInput = document.getElementById('searchData').value;
-                
+                var brand = document.getElementById('dataBrand').value;
+                var name = document.getElementById('dataName').value;
+                var no = document.getElementById('dataCode').value;
+                var amount = document.getElementById('dataAmount').value;
+                var location = document.getElementById('dataLocation').value;
+
+                var dbRef = database.ref('data');
                 var ref = database.ref('data/'+searchInput);
                 
                 if (searchType == "dataNumber") {
-                    ref.once('value', function(snapshot) {
-                        var r = confirm("Are you sure?");
-                        if (r) {
-                            ref.remove();
-                            alert('Delete data success.');
-                            window.location.reload();
-                        }
+                    ref.once('value', function(snapshot) {                        
+                        snapshot.ref.update({
+                            data_brand: brand,
+                            data_name: name,
+                            amount: amount,
+                            location: location
+                        });
+                        alert('Data Saved.');
+                        window.location.reload();
                     });
                 }
                 else if (searchType == "dataName") {
                     var dataRef = dbRef.orderByChild('data_name').equalTo(searchInput).once('value', function(snapshot) {
-                        var r = confirm("Are you sure?");
-                        if (r) {
-                            ref.remove();
-                            alert('Delete data success.');
-                            window.location.reload();
-                        }
+                        console.log(snapshot.val());
+                        snapshot.forEach(function(data) {
+                            ref.once('value', function(snapshot) {                        
+                                snapshot.ref.update({
+                                    data_brand: brand,
+                                    data_name: name,
+                                    amount: amount,
+                                    location: location
+                                });
+                                
+                                alert('Data Saved.');
+                                window.location.reload();
+                            });
+                        });
                     });
                 }
-            }
-            
-            function printData(brand, number, name, amount, location) {
-                document.getElementById('resultBrand').innerHTML = brand;
-                document.getElementById('resultNumber').innerHTML = number;
-                document.getElementById('resultName').innerHTML = name;
-                document.getElementById('resultQty').innerHTML = amount;
             }
             
             function readUser(userId) {
@@ -109,7 +128,16 @@
                 });
             }
             
-            function initApp() {                
+            function initApp() {
+                document.getElementById('searchBtn').addEventListener('click', handleSearchData, false);
+                document.getElementById('searchData').addEventListener('keyup', function (e) {
+                    e.preventDefault();
+                    if(e.keyCode === 13) {
+                        document.getElementById("searchBtn").click();
+                    }
+                });
+                document.getElementById('editBtn').addEventListener('click', updateData, false);
+                
                 firebase.auth().onAuthStateChanged(function(user) {
                     if (user) {
                         readUser(user.uid);
@@ -118,8 +146,11 @@
                             console.log(snapshot.val());
                             
                             if(snapshot.val() == 'user') {                                
-                                window.location = 'home.html';
-                                alert('Error, you don\'t have access to this page.');
+                                //ocument.getElementsByClassName('userRole').remove();
+                                var elements = document.getElementsByClassName('userRole');
+                                while(elements.length > 0) {
+                                    elements[0].parentNode.removeChild(elements[0]);
+                                }
                             }
                         });
                         return;
@@ -129,9 +160,6 @@
                         alert('Error, you must log in first.');
                     }
                 });
-                document.getElementById('searchBtn').addEventListener('click', handleSearchData, false);
-                document.getElementById('deleteBtn').addEventListener('click', handleDeleteData, false);
-                
             }
             
             window.onload = function() {
@@ -158,8 +186,8 @@
                         <li><a href="input.html"><span><i class="glyphicon glyphicon-import"></i></span> Input New Data</a></li>
                         <li><a href="update.html"><span><i class="glyphicon glyphicon-floppy-save"></i></span> Update Stock</a></li>
                         <li class="userRole"><a href="view.html"><span><i class="glyphicon glyphicon-folder-open"></i></span>  View Data</a></li>
-                        <li class="userRole"><a href="edit.html"><span><i class="glyphicon glyphicon-edit"></i></span> Edit Data</a></li>
-                        <li class="active userRole"><a href="delete.html"><span><i class="glyphicon glyphicon-floppy-remove"></i></span> Delete Data</a></li>
+                        <li class="userRole active"><a href="edit.html"><span><i class="glyphicon glyphicon-edit"></i></span> Edit Data</a></li>
+                        <li class="userRole"><a href="delete.html"><span><i class="glyphicon glyphicon-floppy-remove"></i></span> Delete Data</a></li>
 
                          <!--For dropdown menu -->
                         <li class="dropdown userRole">
@@ -177,33 +205,29 @@
         <!-- End of navbar -->
         
         <div id="input" class="body">
-            <h1>Delete Data</h1>
+            <h1>Edit Data</h1>
             <div id="searchContainer">
                 <select id="selectType">
                     <option value="dataNumber">Data No.</option>
                     <option value="dataName">Data Name</option>
                 </select>
                 <div id="search" class="container-fluid">
-                    <input type="text" id="searchData" placeholder="Search for..." class="form-control">
+                    <input autofocus="autofocus" type="text" id="searchData" placeholder="Search for..." autocomplete="off" class="form-control">
                     <button type="submit" role="button" id="searchBtn" class="btn btn-action"><span class="glyphicon glyphicon-search"></span></button>
                 </div>
-                <div id="tableResult">
-                    <table class="table">
-                        <tr class="table">
-                            <th class="col-md-2">Brand</th>
-                            <th class="col-md-3">No.</th>
-                            <th class="col-md-4">Name</th>
-                            <th class="col-md-1">Qty</th>
-                        </tr>
-                        <tr>
-                            <td class="col-md-2" id="resultBrand"></td>
-                            <td class="col-md-3" id="resultNumber"></td>
-                            <td class="col-md-4" id="resultName"></td>
-                            <td class="col-md-1" id="resultQty"></td>
-                        </tr>
-                    </table>
+                <div>
+                    <label>No.</label>
+                    <input style="color: #bfbfbf" type="text" id="dataCode" autocomplete="off" readonly>
+                    <label>Brand</label>
+                    <input type="text" id="dataBrand" autocomplete="off">            
+                    <label>Name</label>
+                    <input type="text" id="dataName" autocomplete="off">
+                    <label>Quantity</label>
+                    <input type="number" id="dataAmount" autocomplete="off">
+                    <label>Location</label>
+                    <input type="text" id="dataLocation" autocomplete="off">
                 </div>
-                <input type="submit" role="button" id="deleteBtn" class="btn btn-action" value="Delete">
+                <input type="submit" role="button" id="editBtn" class="btn btn-action" value="Save">
             </div>
         </div>
     </body>

@@ -26,7 +26,7 @@
     
 /* ===== General Section ===== */
     body {
-        background: #f4f4f4 !important; 
+        background: #f2f2f2 !important; 
         color: rgba(0,0,0,0.87) !important; 
         font-family: Roboto, Helvetica, Arial, sans-serif !important; 
         margin: 0 !important; 
@@ -35,7 +35,7 @@
     }
     
     .container{
-        background: #f4f4f4 !important;
+        background: #f2f2f2 !important;
         padding-top: 20px;
         width: 80%;
         max-width: 800px;
@@ -43,7 +43,7 @@
     }
     
     .body {
-        background: #f4f4f4;
+        background: #f2f2f2;
         padding: 30px 20px 30px 170px !important;
         margin-right: 0 !important;
         width: 100% !important;
@@ -124,6 +124,10 @@
         margin: 10px 0 0 0 !important;
         font-size: 0.95em;
         font-weight: 300 !important;
+    }
+    
+    tr {
+        border-bottom: 1px solid #DDD;
     }
 /* ====== End of General Section ===== */
 
@@ -244,6 +248,15 @@
 /* --- View Data Page --- */
     #view input {
         width: 100%; 
+    }
+    
+    .data:hover {
+        background: #ffa100;
+    }
+    
+    .data button {
+        border: 0;
+        background: transparent;
     }
     
     #search {

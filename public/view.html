@@ -29,7 +29,13 @@
         </script>
         
         <!-- Function code here -->
-        <script type="text/javascript">            
+        <script type="text/javascript">
+            $(document).ready(function() {
+                    $('table tr').click(function() {
+                        //alert($(this).text());
+                        console.log('click');
+                    });
+                });
             function handleOutputData() {
                 var db = database.ref('data');
                 var a = parseInt(1,10);
@@ -136,7 +142,7 @@
                 var a = parseInt(1,10);
                 
                 var tr = document.createElement('tr');
-                tr.className = 'something';
+                tr.className = 'data';
                 tr.id = ("tr" + a);
 
                 var td1 = document.createElement('td');
@@ -164,9 +170,27 @@
                 td5.className = 'col-md-2';
                 td5.innerHTML = location;
                 tr.appendChild(td5);
+                
+                /*var editBtn = document.createElement('button');
+                editBtn.className = 'glyphicon glyphicon-edit';                
+                tr.appendChild(editBtn);
+                
+                var delBtn = document.createElement('button');
+                delBtn.className = 'glyphicon glyphicon-remove-sign';                
+                tr.appendChild(delBtn);*/
+                
+                /*var editBtn = document.createElement('td');
+                editBtn.innerHTML = "<button id='editBtn' class='glyphicon glyphicon-edit'></button>";
+                tr.appendChild(editBtn);
+                
+                var delBtn = document.createElement('td');
+                delBtn.innerHTML = "<button id='delBtn' class='glyphicon glyphicon-remove-sign'></button>";
+                tr.appendChild(delBtn);*/
 
                 box.appendChild(tr);
                 a++;
+                
+                
             }
             
             function searchData() {
@@ -288,9 +312,11 @@
                 document.getElementById('searchBtn').addEventListener('click', handleSearchData, false);
             }
             
+            
+            
             window.onload = function() {
                 initApp();
-            };            
+            };
         </script>
     </head>
     <body>
@@ -313,6 +339,7 @@
                         <li><a href="update.html"><span><i class="glyphicon glyphicon-floppy-save"></i></span> Update Stock</a></li>
                         <li class="active userRole"><a href="view.html"><span><i class="glyphicon glyphicon-folder-open"></i></span>  View Data</a></li>
                         <li class="userRole"><a href="delete.html"><span><i class="glyphicon glyphicon-floppy-remove"></i></span> Delete Data</a></li>
+                        <li class="userRole"><a href="edit.html"><span><i class="glyphicon glyphicon-edit"></i></span> Edit Data</a></li>
 
                          <!--For dropdown menu -->
                         <li class="dropdown userRole">
