@@ -73,6 +73,12 @@
             function initApp() {                
                 /* add event after click submit button */
                 document.getElementById('btnLogin').addEventListener('click', toggleSignIn, false);
+                document.getElementById('txtPassword').addEventListener('keyup', function (e) {
+                    e.preventDefault();
+                    if(e.keyCode === 13) {
+                        document.getElementById("btnLogin").click();
+                    }
+                });
             }
             
             /* to automatically load initApp() function */

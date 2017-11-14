@@ -40,6 +40,12 @@
             
             function initApp() {
                 document.getElementById('btnReset').addEventListener('click', sendPasswordReset, false);
+                document.getElementById('emailReset').addEventListener('keyup', function (e) {
+                    e.preventDefault();
+                    if(e.keyCode === 13) {
+                        document.getElementById("btnReset").click();
+                    }
+                });
             }
             
             window.onload = function() {

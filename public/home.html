@@ -96,7 +96,7 @@
             function sortStockInLow() {
                 var dbRef = firebase.database().ref('data');
                 
-                dbRef.orderByValue().limitToFirst(20).on('value', function(snapshot) {
+                dbRef.orderByChild('amount').limitToLast(20).on('value', function(snapshot) {
                     //console.log(snapshot.val());
                     snapshot.forEach(function(data) {
                         var box = document.getElementsByClassName('stockTable')[0];

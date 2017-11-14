@@ -91,6 +91,12 @@
             function initApp() {                
                 /* add event after click submit button */
                 document.getElementById('btnSignUp').addEventListener('click', handleSignUp, false);
+                document.getElementById('regPassTemp').addEventListener('keyup', function (e) {
+                    e.preventDefault();
+                    if(e.keyCode === 13) {
+                        document.getElementById("btnSignUp").click();
+                    }
+                });
             }
             
             /* to automatically load initApp() function */
