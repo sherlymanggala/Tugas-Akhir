@@ -200,12 +200,15 @@
     
 /* --- Home Page --- */
     #home {
+        display: -ms-grid;
         display: grid;
         grid-template-areas: 
             "invent invent"
             "stock product";
         grid-template-rows: 200px 1fr;
+        -ms-grid-template-rows: 200px 1fr;
         grid-template-columns: 1fr 1fr;
+        -ms-grid-template-columns: 1fr 1fr;
     }
     
     #inventSummary {

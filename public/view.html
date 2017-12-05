@@ -131,7 +131,7 @@
             }
             
             function clearData() {
-                var elements = document.getElementsByClassName('something');
+                var elements = document.getElementsByClassName('data');
                 while(elements.length > 0) {
                     elements[0].parentNode.removeChild(elements[0]);
                 }
@@ -188,9 +188,7 @@
                 tr.appendChild(delBtn);*/
 
                 box.appendChild(tr);
-                a++;
-                
-                
+                a++;   
             }
             
             function searchData() {
@@ -200,7 +198,7 @@
                     var a = parseInt(1,10);
                     input = document.getElementById('searchData');
                     filter = input.value.toUpperCase();
-                    tr = document.getElementsByClassName('something');
+                    tr = document.getElementsByClassName('data');
                     for(i = 0 ;i<tr.length;i++) {
                         console.log('somethinggggg');
                         td = tr[i].getElementsByTagName('td')[0];
@@ -217,7 +215,7 @@
                     var a = parseInt(1,10);
                     input = document.getElementById('searchData');
                     filter = input.value.toUpperCase();
-                    tr = document.getElementsByClassName('something');
+                    tr = document.getElementsByClassName('data');
                     for(i = 0 ;i<tr.length;i++) {
                         td = tr[i].getElementsByTagName('td')[1];
                         if(td.innerHTML.toUpperCase().indexOf(filter) > -1) {
@@ -233,7 +231,7 @@
                     var a = parseInt(1,10);
                     input = document.getElementById('searchData');
                     filter = input.value.toUpperCase();
-                    tr = document.getElementsByClassName('something');
+                    tr = document.getElementsByClassName('data');
                     for(i = 0 ;i<tr.length;i++) {
                         td = tr[i].getElementsByTagName('td')[2];
                         if(td.innerHTML.toUpperCase().indexOf(filter) > -1) {
@@ -250,7 +248,7 @@
                     var a = parseInt(1,10);
                     input = document.getElementById('searchData');
                     filter = input.value.toUpperCase();
-                    tr = document.getElementsByClassName('something');
+                    tr = document.getElementsByClassName('data');
                     for(i = 0 ;i<tr.length;i++) {
                         td = tr[i].getElementsByTagName('td')[4];
                         if(td.innerHTML.toUpperCase().indexOf(filter) > -1) {
@@ -338,8 +336,8 @@
                         <li><a href="input.html"><span><i class="glyphicon glyphicon-import"></i></span> Input New Data</a></li>
                         <li><a href="update.html"><span><i class="glyphicon glyphicon-floppy-save"></i></span> Update Stock</a></li>
                         <li class="active userRole"><a href="view.html"><span><i class="glyphicon glyphicon-folder-open"></i></span>  View Data</a></li>
-                        <li class="userRole"><a href="delete.html"><span><i class="glyphicon glyphicon-floppy-remove"></i></span> Delete Data</a></li>
                         <li class="userRole"><a href="edit.html"><span><i class="glyphicon glyphicon-edit"></i></span> Edit Data</a></li>
+                        <li class="userRole"><a href="delete.html"><span><i class="glyphicon glyphicon-floppy-remove"></i></span> Delete Data</a></li>
 
                          <!--For dropdown menu -->
                         <li class="dropdown userRole">
